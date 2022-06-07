@@ -1,11 +1,29 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:for_vegan/konstants.dart';
 
-class SendSuggestionsPage extends StatelessWidget {
+class SendSuggestionsPage extends StatefulWidget {
   const SendSuggestionsPage({Key? key}) : super(key: key);
 
   @override
+  State<SendSuggestionsPage> createState() => _SendSuggestionsPageState();
+}
+
+class _SendSuggestionsPageState extends State<SendSuggestionsPage> {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  late String title;
+  late String argument;
+  @override
   Widget build(BuildContext context) {
+    CollectionReference suggestions =
+        FirebaseFirestore.instance.collection('suggestions');
+    Future<Future<Object?>> addSugges(String title, String argument) async {
+      return suggestions
+          .add({'title': title, 'argument': argument})
+          .then((value) => Navigator.pushNamed(context, '/'))
+          .catchError((error) => print("Failed to add user: $error"));
+    }
+
     return SafeArea(
         child: Scaffold(
       resizeToAvoidBottomInset: false,
@@ -33,6 +51,7 @@ class SendSuggestionsPage extends StatelessWidget {
             Text('Title', style: kTextStylAddRecipe),
             SizedBox(height: 5),
             TextField(
+                onChanged: (value) => title = value,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   focusedBorder: OutlineInputBorder(
@@ -45,6 +64,7 @@ class SendSuggestionsPage extends StatelessWidget {
             Text('Argument', style: kTextStylAddRecipe),
             SizedBox(height: 5),
             TextField(
+                onChanged: (value) => argument = value,
                 maxLines: 12,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -60,7 +80,7 @@ class SendSuggestionsPage extends StatelessWidget {
               children: [
                 GestureDetector(
                     onTap: () {
-                      Navigator.pop(context);
+                      addSugges(title, argument);
                     },
                     child: Container(
                       width: 206,

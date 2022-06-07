@@ -1,11 +1,46 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:for_vegan/konstants.dart';
 
-class AddRecipePage extends StatelessWidget {
+class AddRecipePage extends StatefulWidget {
   const AddRecipePage({Key? key}) : super(key: key);
 
   @override
+  State<AddRecipePage> createState() => _AddRecipePageState();
+}
+
+class _AddRecipePageState extends State<AddRecipePage> {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  TextEditingController titleC = TextEditingController();
+  TextEditingController categoriesC = TextEditingController();
+  TextEditingController imageUrlController = TextEditingController();
+  late String title;
+  late String categories;
+  late String image;
+  late String description;
+  late String ingredients;
+  late String time;
+  @override
   Widget build(BuildContext context) {
+    CollectionReference recipes =
+        FirebaseFirestore.instance.collection('Recipes');
+
+    Future<void> addRecipes(String title, String categories, String image,
+        String description, String ingredients, String time) {
+      return recipes
+          .add({
+            'categories': categories,
+            'description': description,
+            'image': image,
+            'ingredients': ingredients,
+            'time': time,
+            'title': title
+          })
+          .then((value) => Navigator.pushNamed(context, '/'))
+          .catchError((error) => print("Failed to add user: $error"));
+    }
+
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -29,15 +64,29 @@ class AddRecipePage extends StatelessWidget {
                       child: Image.asset('assets/icons/icon_close.png')),
                 ],
               ),
-              SizedBox(height: 12),
+              SizedBox(height: 2),
               Text('Title', style: kTextStylAddRecipe),
               SizedBox(height: 5),
               TextField(
+                  controller: titleC,
+                  onChanged: (value) => title = value,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: kColorPurple)),
                     hintText: 'Insert title here',
+                    hintStyle: kTextStyleTextField,
+                  ),
+                  keyboardType: TextInputType.text),
+              Text('Image', style: kTextStylAddRecipe),
+              SizedBox(height: 5),
+              TextField(
+                  onChanged: (value) => image = value,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: kColorPurple)),
+                    hintText: 'Insert image here',
                     hintStyle: kTextStyleTextField,
                   ),
                   keyboardType: TextInputType.text),
@@ -55,6 +104,8 @@ class AddRecipePage extends StatelessWidget {
                         ),
                         SizedBox(height: 5),
                         TextField(
+                            onChanged: (value) => categories = value,
+                            controller: categoriesC,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               focusedBorder: OutlineInputBorder(
@@ -77,6 +128,7 @@ class AddRecipePage extends StatelessWidget {
                       ),
                       SizedBox(height: 5),
                       TextField(
+                          onChanged: (value) => time = value,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             focusedBorder: OutlineInputBorder(
@@ -93,6 +145,7 @@ class AddRecipePage extends StatelessWidget {
               Text('Ingredients', style: kTextStylAddRecipe),
               SizedBox(height: 5),
               TextField(
+                  onChanged: (value) => ingredients = value,
                   maxLines: 5,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -107,6 +160,7 @@ class AddRecipePage extends StatelessWidget {
               SizedBox(height: 5),
               TextField(
                   maxLines: 5,
+                  onChanged: (value) => description = value,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
@@ -115,13 +169,14 @@ class AddRecipePage extends StatelessWidget {
                     hintStyle: kTextStyleTextField,
                   ),
                   keyboardType: TextInputType.text),
-              SizedBox(height: 85),
+              SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
                       onTap: () {
-                        Navigator.pop(context);
+                        addRecipes(title, categories, time, description, image,
+                            ingredients);
                       },
                       child: Container(
                         width: 206,

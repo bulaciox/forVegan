@@ -37,6 +37,8 @@ dependencies:
   custom_navigation_bar: ^0.8.2
   flutter_icons: ^1.1.0
   toggle_switch: ^2.0.1
+  firebase_core: ^1.17.1
+  cloud_firestore: ^3.1.17
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:for_vegan/pages/recipe_page.dart';
 import '../../konstants.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -9,11 +12,28 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  var allRecipes = [];
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    CollectionReference recipes =
+        FirebaseFirestore.instance.collection('Recipes');
+    recipes.get().then((QuerySnapshot querySnapshot) {
+      final allData = querySnapshot.docs.map((doc) => doc.data());
+      setState(() {
+        allRecipes = allData.toList();
+      });
+    });
+    // print(allRecipes);
     return SafeArea(
       child: Container(
-        color: kColorGrey,
+        // color: kColorGrey,
         margin: EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -24,11 +44,42 @@ class _HomePageState extends State<HomePage> {
               //color: Colors.red,
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: <Widget>[
-                  _cartaTrendy(context),
-                  _cartaTrendy(context),
-                  _cartaTrendy(context),
-                  _cartaTrendy(context),
+                children: [
+                  ...allRecipes
+                      .map<Widget>((rec) => GestureDetector(
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RecipePage(id: rec['id']),
+                              ),
+                            ),
+                            child: Card(
+                              //elevation: 16, //sombreado
+                              clipBehavior: Clip.antiAlias,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                      width: 280,
+                                      height: 180,
+                                      child: Image.network(
+                                        rec['image'],
+                                        fit: BoxFit.fitWidth,
+                                        height: 150,
+                                      )),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 5),
+                                    child: Text(rec['title'],
+                                        overflow: TextOverflow.ellipsis,
+                                        softWrap: false,
+                                        style: TextStyle(fontSize: 17)),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ))
+                      .toList()
                 ],
               ),
             ),
@@ -40,29 +91,44 @@ class _HomePageState extends State<HomePage> {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
-                  _cartaCategoria('For breakfast'),
-                  _cartaCategoria('For dinner'),
-                  _cartaCategoria('For launch'),
-                  _cartaCategoria('Asian'),
-                  _cartaCategoria('Desserts'),
+                  ...allRecipes
+                      .map<Widget>((cat) => Card(
+                            color: Colors.white,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 8.0, horizontal: 12.0),
+                              child: Center(
+                                child: Text(
+                                  cat['categories'],
+                                  style: const TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                    color: Color.fromRGBO(122, 122, 199, 1.0),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ))
+                      .toList()
                 ],
               ),
             ),
             SizedBox(height: 100),
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, '/recipe');
-              },
-              child: Center(
-                child: Container(
-                  color: kColorPurple,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text('Receta'),
-                  ),
-                ),
-              ),
-            )
+            // GestureDetector(
+            //   onTap: () {
+            //     Navigator.pushNamed(context, '/recipe');
+            //   },
+            //   child: Center(
+            //     child: Container(
+            //       color: kColorPurple,
+            //       child: Padding(
+            //         padding: const EdgeInsets.all(10.0),
+            //         child: Text('Receipes'),
+            //       ),
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),
@@ -97,11 +163,11 @@ Widget _cartaTrendy(BuildContext context) {
       clipBehavior: Clip.antiAlias,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+        children: [
           Container(
             width: 280,
             height: 180,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/fav_img1.png'),
                 fit: BoxFit.cover,

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "592622567445",
+    "project_id": "vegan-app-ee596",
+    "storage_bucket": "vegan-app-ee596.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:592622567445:android:79e579f22247eb3d0b4e1c",
+        "android_client_info": {
+          "package_name": "bulacio.com.for_vegan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "592622567445-isu9sehqb22qt1h361pkmbtneeqgk34n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZnxjGu0x4vsutnxDNan0UYowJOzTkRxo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "592622567445-isu9sehqb22qt1h361pkmbtneeqgk34n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
