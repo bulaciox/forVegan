@@ -5,6 +5,9 @@ import 'package:for_vegan/pages/navpages/main_page.dart';
 import 'package:for_vegan/pages/recipe_page.dart';
 import 'package:for_vegan/pages/send_suggestions_page.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:for_vegan/pages/welcome_page.dart';
+import 'package:for_vegan/pages/login_page.dart';
+import 'package:for_vegan/pages/register_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,6 +24,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
         '/': (BuildContext context) => const MainPage(),
+        '/main_page': (BuildContext context) => const MainPage(),
         // '/recipe': (BuildContext context) => const RecipePage(),
         '/add_recipe': (BuildContext context) => const AddRecipePage(),
         '/send_suggestions': (BuildContext context) =>
