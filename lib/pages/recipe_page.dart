@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:for_vegan/konstants.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-import 'package:share_plus/share_plus.dart';
+// import 'package:share_plus/share_plus.dart';
 
 class RecipePage extends StatefulWidget {
   final int id;
@@ -24,6 +24,7 @@ class _RecipePageState extends State<RecipePage> {
   var recImg = '';
   List recIng = [];
   var recIns = '';
+  var reportText = '';
   final _auth = FirebaseAuth.instance;
 
   var allRecipes = [];
@@ -86,6 +87,22 @@ class _RecipePageState extends State<RecipePage> {
       });
     }
 
+    sendReport(value) {
+      CollectionReference reports =
+          FirebaseFirestore.instance.collection('RecipsReport');
+      reports
+          .add({'Error message': reportText, 'Recipe_Id': widget.id.toString()})
+          .then((value) => {
+                const SnackBar(
+                  content: Text('Sucessfully accepted !'),
+                ),
+              })
+          .catchError((error) => const SnackBar(
+                content: Text("Something went wrong!"),
+              ));
+      ;
+    }
+
     return Scaffold(
       backgroundColor: kColorGrey,
       body: SingleChildScrollView(
@@ -99,53 +116,95 @@ class _RecipePageState extends State<RecipePage> {
                     image: NetworkImage(recImg), fit: BoxFit.cover, scale: 1),
               ),
               child: SafeArea(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 30.0, vertical: 6.0),
-                      child: GestureDetector(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 5.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      GestureDetector(
                           onTap: () {
                             showModalBottomSheet(
+                              // enableDrag: true,
+                              // isDismissible: true,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(24),
+                                  topRight: Radius.circular(24),
+                                ),
+                              ),
                               context: context,
-                              builder: (context) {
-                                return Wrap(
-                                  children: const [
-                                    ListTile(
-                                      leading: Icon(Icons.share),
-                                      title: Text('Share'),
-                                    ),
-                                    ListTile(
-                                      leading: Icon(Icons.copy),
-                                      title: Text('Copy Link'),
-                                    ),
-                                    ListTile(
-                                      leading: Icon(Icons.edit),
-                                      title: Text('Edit'),
-                                    ),
+                              builder: (context) => Padding(
+                                padding: const EdgeInsets.all(17.0),
+                                child: Column(
+                                  //mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text('Report an error in the recipe',
+                                        style: kTextStyleTitle),
+                                    SizedBox(height: 13),
+                                    TextField(
+                                        onChanged: ((value) =>
+                                            reportText = value),
+                                        maxLines: 7,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: kColorPurple)),
+                                          hintText: 'Describe the error here',
+                                          hintStyle: kTextStyleTextField,
+                                        ),
+                                        keyboardType: TextInputType.text),
+                                    SizedBox(height: 25),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        GestureDetector(
+                                            onTap: () {
+                                              sendReport(reportText);
+                                            },
+                                            child: Container(
+                                              width: 206,
+                                              height: 54,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              10.0)),
+                                                  color: kColorPurple),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: <Widget>[
+                                                  Text('Send',
+                                                      style:
+                                                          kTextStylAddButton),
+                                                  Icon(
+                                                    Icons.arrow_forward,
+                                                    color: Colors.white,
+                                                  )
+                                                ],
+                                              ),
+                                            )),
+                                      ],
+                                    )
                                   ],
-                                );
-                              },
+                                ),
+                              ),
                             );
                           },
-                          child: Icon(
-                            Icons.info_outline,
-                            color: Colors.purple,
-                            size: 45,
-                          )),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 30.0, vertical: 5.0),
-                      child: GestureDetector(
+                          child: Image.asset('assets/icons/icon_inform.png')),
+                      GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
                           },
                           child: Image.asset('assets/icons/icon_close.png')),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -291,3 +350,71 @@ Widget _steps() {
     ),
   );
 }
+
+// void showBottomSheet(BuildContext context) => showModalBottomSheet(
+//       //enableDrag: false,
+//       //isDismissible: false,
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.only(
+//           topLeft: Radius.circular(24),
+//           topRight: Radius.circular(24),
+//         ),
+//       ),
+//       context: context,
+//       builder: (context) => Padding(
+//         padding: const EdgeInsets.all(17.0),
+//         child: Column(
+//           //mainAxisSize: MainAxisSize.min,
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: <Widget>[
+//             Text('Report an error in the recipe', style: kTextStyleTitle),
+//             SizedBox(height: 13),
+//             TextField(
+//                 maxLines: 7,
+//                 decoration: InputDecoration(
+//                   border: OutlineInputBorder(),
+//                   focusedBorder: OutlineInputBorder(
+//                       borderSide: BorderSide(color: kColorPurple)),
+//                   hintText: 'Describe the error here',
+//                   hintStyle: kTextStyleTextField,
+//                 ),
+//                 keyboardType: TextInputType.text),
+//             SizedBox(height: 25),
+//             Row(
+//               mainAxisAlignment: MainAxisAlignment.center,
+//               children: [
+//                 GestureDetector(
+//                     onTap: () {
+//                       // sendReport();
+//                     },
+//                     child: Container(
+//                       width: 206,
+//                       height: 54,
+//                       decoration: BoxDecoration(
+//                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
+//                           color: kColorPurple),
+//                       child: Row(
+//                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                         children: <Widget>[
+//                           Text('Send', style: kTextStylAddButton),
+//                           Icon(
+//                             Icons.arrow_forward,
+//                             color: Colors.white,
+//                           )
+//                         ],
+//                       ),
+//                     )),
+//               ],
+//             )
+//           ],
+//         ),
+//       ),
+//     );
+
+/*
+* ListTile(
+            leading: Icon(Icons.link),
+            title: Text('Copy link'),
+            onTap: () => {},
+          ),
+* */

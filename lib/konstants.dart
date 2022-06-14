@@ -49,9 +49,29 @@ final kTextStylAddButton = TextStyle(
   color: Colors.white,
 );
 
+final kTextStylAddButtonPurple = TextStyle(
+  fontFamily: 'Poppins',
+  fontSize: 16,
+  fontWeight: FontWeight.w600,
+  color: kColorPurple,
+);
+
 final kTextStyleTextField = TextStyle(
   fontFamily: 'Poppins',
   fontSize: 14,
+);
+
+final kTextStyleTitleWhite = TextStyle(
+  fontFamily: 'Poppins',
+  fontSize: 56,
+  fontWeight: FontWeight.w600,
+  color: Colors.white,
+);
+
+final kTextStyleSubTitleWhite = TextStyle(
+  fontFamily: 'Poppins',
+  fontSize: 16,
+  color: Colors.white,
 );
 
 final kColorGrey = Color.fromRGBO(243, 245, 246, 1.0);

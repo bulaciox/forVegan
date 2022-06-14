@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:for_vegan/pages/Start_screen.dart';
 import 'package:for_vegan/pages/add_recipe_page.dart';
 import 'package:for_vegan/pages/navpages/main_page.dart';
-import 'package:for_vegan/pages/recipe_page.dart';
 import 'package:for_vegan/pages/send_suggestions_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:for_vegan/pages/signup.dart';
+import 'package:for_vegan/pages/welcome_page.dart';
+import 'package:for_vegan/pages/login_page.dart';
+import 'package:for_vegan/pages/register_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,13 +49,23 @@ class _MyAppState extends State<MyApp> {
     // print(userisSignin);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: userisSignin ? const MainPage() : const Start(),
+      home: userisSignin ? const MainPage() : const WelcomePage(),
       // routes: <String, WidgetBuilder>{
       //   '/': (BuildContext context) => const MainPage(),
       //   // '/recipe': (BuildContext context) => const RecipePage(),
       //   '/add_recipe': (BuildContext context) => const AddRecipePage(),
       //   '/send_suggestions': (BuildContext context) =>
       //       const SendSuggestionsPage(),
+      // },
+      // routes: <String, WidgetBuilder>{
+      //   '/': (BuildContext context) => const WelcomePage(),
+      //   '/main_page': (BuildContext context) => const MainPage(),
+      //   // '/recipe': (BuildContext context) => const RecipePage(),
+      //   '/add_recipe': (BuildContext context) => const AddRecipePage(),
+      //   '/send_suggestions': (BuildContext context) =>
+      //       const SendSuggestionsPage(),
+      //   '/login': (BuildContext context) => const LoginPage(),
+      //   '/register': (BuildContext context) => const RegisterPage(),
       // },
     );
   }
