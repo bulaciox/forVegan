@@ -69,20 +69,25 @@ class _RecipePageState extends State<RecipePage> {
                     image: NetworkImage(recImg), fit: BoxFit.cover, scale: 1),
               ),
               child: SafeArea(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10.0, vertical: 5.0),
-                      child: GestureDetector(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 5.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      GestureDetector(
+                          onTap: () {
+                            showBottomSheet(context);
+                          },
+                          child: Image.asset('assets/icons/icon_inform.png')),
+                      GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
                           },
                           child: Image.asset('assets/icons/icon_close.png')),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -223,3 +228,71 @@ Widget _steps() {
     ),
   );
 }
+
+void showBottomSheet(BuildContext context) => showModalBottomSheet(
+      //enableDrag: false,
+      //isDismissible: false,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(24),
+          topRight: Radius.circular(24),
+        ),
+      ),
+      context: context,
+      builder: (context) => Padding(
+        padding: const EdgeInsets.all(17.0),
+        child: Column(
+          //mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text('Report an error in the recipe', style: kTextStyleTitle),
+            SizedBox(height: 13),
+            TextField(
+                maxLines: 7,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: kColorPurple)),
+                  hintText: 'Describe the error here',
+                  hintStyle: kTextStyleTextField,
+                ),
+                keyboardType: TextInputType.text),
+            SizedBox(height: 25),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop(context);
+                    },
+                    child: Container(
+                      width: 206,
+                      height: 54,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          color: kColorPurple),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Text('Send', style: kTextStylAddButton),
+                          Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                          )
+                        ],
+                      ),
+                    )),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+
+/*
+* ListTile(
+            leading: Icon(Icons.link),
+            title: Text('Copy link'),
+            onTap: () => {},
+          ),
+* */
