@@ -1,10 +1,11 @@
 // ignore_for_file: prefer_const_constructors, unused_local_variable
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:for_vegan/konstants.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:share_plus/share_plus.dart';
 
 class RecipePage extends StatefulWidget {
   final int id;
@@ -18,11 +19,14 @@ class _RecipePageState extends State<RecipePage> {
   bool isVisible = true;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   var recTitle = '';
+  var recId = '';
   var recTime = '';
   var recImg = '';
   List recIng = [];
   var recIns = '';
+  final _auth = FirebaseAuth.instance;
 
+  var allRecipes = [];
   @override
   void initState() {
     super.initState();
@@ -50,12 +54,38 @@ class _RecipePageState extends State<RecipePage> {
       final allData = documentSnapshot;
       setState(() {
         recTitle = allData.get('title');
+        recId = allData.get('id').toString();
         recTime = allData.get('time');
         recImg = allData.get('image');
         recIng = allData.get('ingredients');
         recIns = allData.get('instructions');
       });
     });
+
+    addTofav() {
+      _auth.authStateChanges().listen((User? user) {
+        if (user == null) {
+          print(user?.uid);
+        } else {
+          CollectionReference users =
+              FirebaseFirestore.instance.collection('Users');
+          users
+              .where("Email", isEqualTo: user.email)
+              .get()
+              .then((QuerySnapshot querySnapshot) {
+            final favData =
+                querySnapshot.docs.map((doc) => doc.data()).toList();
+            setState(() {
+              allRecipes = favData;
+            });
+          });
+          users.doc('oRigkS0edLRqXaUH1J1Z').update({
+            'Favorite_Recipes': FieldValue.arrayUnion([widget.id.toString()])
+          }).then((value) => print('updated'));
+        }
+      });
+    }
+
     return Scaffold(
       backgroundColor: kColorGrey,
       body: SingleChildScrollView(
@@ -71,11 +101,44 @@ class _RecipePageState extends State<RecipePage> {
               child: SafeArea(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 10.0, vertical: 5.0),
+                          horizontal: 30.0, vertical: 6.0),
+                      child: GestureDetector(
+                          onTap: () {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return Wrap(
+                                  children: const [
+                                    ListTile(
+                                      leading: Icon(Icons.share),
+                                      title: Text('Share'),
+                                    ),
+                                    ListTile(
+                                      leading: Icon(Icons.copy),
+                                      title: Text('Copy Link'),
+                                    ),
+                                    ListTile(
+                                      leading: Icon(Icons.edit),
+                                      title: Text('Edit'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          child: Icon(
+                            Icons.info_outline,
+                            color: Colors.purple,
+                            size: 45,
+                          )),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30.0, vertical: 5.0),
                       child: GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
@@ -108,12 +171,17 @@ class _RecipePageState extends State<RecipePage> {
                                 fontSize: 10, fontWeight: FontWeight.bold)),
                         Row(
                           children: <Widget>[
-                            Image.asset('assets/icons/icon_share.png'),
-                            SizedBox(width: 7),
-                            Image.asset(
-                              'assets/icons/icon_like.png',
-                              scale: 1,
+                            GestureDetector(
+                              child: Image.asset('assets/icons/icon_share.png'),
                             ),
+                            SizedBox(width: 7),
+                            GestureDetector(
+                              onTap: (() => addTofav()),
+                              child: Image.asset(
+                                'assets/icons/icon_like.png',
+                                scale: 1,
+                              ),
+                            )
                           ],
                         )
                       ],
@@ -134,11 +202,11 @@ class _RecipePageState extends State<RecipePage> {
                       minWidth: 162.0,
                       minHeight: 48.0,
                       cornerRadius: 90.0,
-                      activeBgColors: [
+                      activeBgColors: const [
                         [Colors.white],
-                        [Colors.white]
+                        const [Colors.white]
                       ],
-                      customTextStyles: [
+                      customTextStyles: const [
                         TextStyle(
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w600,
@@ -149,7 +217,7 @@ class _RecipePageState extends State<RecipePage> {
                       inactiveBgColor: Color.fromRGBO(227, 232, 235, 1.0),
                       inactiveFgColor: Color.fromRGBO(94, 94, 94, 1.0),
                       initialLabelIndex: switchValue,
-                      labels: ["LET\'COOK", 'INGREDIENTS'],
+                      labels: const ["LET\'COOK", 'INGREDIENTS'],
                       radiusStyle: true,
                       onToggle: (index) {
                         setState(() {

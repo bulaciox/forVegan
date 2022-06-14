@@ -1,9 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:for_vegan/konstants.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  final _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -84,13 +92,16 @@ class ProfilePage extends StatelessWidget {
                       Expanded(child: SizedBox()),
                       Icon(Icons.arrow_forward)
                     ]),
-                    Row(children: <Widget>[
-                      Icon(Icons.logout),
-                      SizedBox(width: 10),
-                      Text('Logout', style: kTextStyleProfile),
-                      Expanded(child: SizedBox()),
-                      Icon(Icons.arrow_forward)
-                    ]),
+                    GestureDetector(
+                      onTap: () => {_auth.signOut()},
+                      child: Row(children: <Widget>[
+                        Icon(Icons.logout),
+                        SizedBox(width: 10),
+                        Text('Logout', style: kTextStyleProfile),
+                        Expanded(child: SizedBox()),
+                        Icon(Icons.arrow_forward)
+                      ]),
+                    )
                   ],
                 ),
               ),

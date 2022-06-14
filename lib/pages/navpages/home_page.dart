@@ -14,6 +14,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   var allRecipes = [];
+  var filterRecipes = [];
+  bool selected = false;
 
   @override
   void initState() {
@@ -28,9 +30,26 @@ class _HomePageState extends State<HomePage> {
       final allData = querySnapshot.docs.map((doc) => doc.data());
       setState(() {
         allRecipes = allData.toList();
+        filterRecipes =
+            filterRecipes.isEmpty ? allData.toList() : filterRecipes;
       });
     });
-    // print(allRecipes);
+
+    handleCat(value) {
+      CollectionReference recipes =
+          FirebaseFirestore.instance.collection('Recipes');
+      recipes
+          .where('categories', isEqualTo: value)
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        final allData = querySnapshot.docs.map((doc) => doc.data());
+        setState(() {
+          filterRecipes = allData.toList();
+        });
+      });
+    }
+
+    // print(filterRecipes);
     return SafeArea(
       child: Container(
         // color: kColorGrey,
@@ -85,6 +104,7 @@ class _HomePageState extends State<HomePage> {
             ),
             SizedBox(height: 20),
             Text('Popular categories', style: kTextStyleTitle),
+            SizedBox(height: 20),
             Container(
               height: 40,
               //color: Colors.blueAccent,
@@ -92,43 +112,78 @@ class _HomePageState extends State<HomePage> {
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
                   ...allRecipes
-                      .map<Widget>((cat) => Card(
-                            color: Colors.white,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 8.0, horizontal: 12.0),
-                              child: Center(
-                                child: Text(
-                                  cat['categories'],
-                                  style: const TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12,
-                                    color: Color.fromRGBO(122, 122, 199, 1.0),
+                      .map<Widget>(
+                        (cat) => GestureDetector(
+                            onTap: () => handleCat(cat['categories']),
+                            child: Card(
+                              color: selected ? Colors.red : Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8.0, horizontal: 12.0),
+                                child: Center(
+                                  child: Text(
+                                    cat['categories'],
+                                    style: const TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14,
+                                      color: Color.fromRGBO(122, 122, 199, 1.0),
+                                    ),
                                   ),
                                 ),
+                              ),
+                            )),
+                      )
+                      .toList(),
+                ],
+              ),
+            ),
+            SizedBox(height: 30),
+            Container(
+              height: 238,
+              //color: Colors.red,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  ...filterRecipes
+                      .map<Widget>((rec) => GestureDetector(
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RecipePage(id: rec['id']),
+                              ),
+                            ),
+                            child: Card(
+                              //elevation: 16, //sombreado
+                              clipBehavior: Clip.antiAlias,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                      width: 280,
+                                      height: 180,
+                                      child: Image.network(
+                                        rec['image'],
+                                        fit: BoxFit.fitWidth,
+                                        height: 150,
+                                      )),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 5),
+                                    child: Text(rec['title'],
+                                        overflow: TextOverflow.ellipsis,
+                                        softWrap: false,
+                                        style: TextStyle(fontSize: 17)),
+                                  )
+                                ],
                               ),
                             ),
                           ))
                       .toList()
+                      .reversed
                 ],
               ),
             ),
-            SizedBox(height: 100),
-            // GestureDetector(
-            //   onTap: () {
-            //     Navigator.pushNamed(context, '/recipe');
-            //   },
-            //   child: Center(
-            //     child: Container(
-            //       color: kColorPurple,
-            //       child: Padding(
-            //         padding: const EdgeInsets.all(10.0),
-            //         child: Text('Receipes'),
-            //       ),
-            //     ),
-            //   ),
-            // )
           ],
         ),
       ),
