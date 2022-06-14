@@ -38,7 +38,9 @@ class WelcomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushReplacementNamed(context, '/login');
+                      },
                       child: Container(
                         width: 206,
                         height: 54,

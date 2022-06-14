@@ -23,7 +23,16 @@ class LoginPage extends StatelessWidget {
                       'Email adress',
                       style: kTextStylAddRecipe,
                     ),
-                    TextField(),
+                    SizedBox(height: 5),
+                    TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black)),
+                          //hintText: 'Email adress',
+                          hintStyle: kTextStyleTextField,
+                        ),
+                        keyboardType: TextInputType.text),
                   ]),
               Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,13 +41,24 @@ class LoginPage extends StatelessWidget {
                       'Password',
                       style: kTextStylAddRecipe,
                     ),
-                    TextField(),
+                    SizedBox(height: 5),
+                    TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black)),
+                          //hintText: 'Password',
+                          hintStyle: kTextStyleTextField,
+                        ),
+                        keyboardType: TextInputType.text),
                   ]),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushReplacementNamed(context, '/main_page');
+                      },
                       child: Container(
                         width: 206,
                         height: 54,
@@ -59,14 +79,19 @@ class LoginPage extends StatelessWidget {
                       )),
                 ],
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text('Dont have an account?', style: kTextStylAddRecipe),
-                  GestureDetector(
-                    child: Text('Create account', style: kTextStyleProfile),
-                    onTap: () {},
+                children: [
+                  Column(
+                    children: <Widget>[
+                      Text('Dont have an account?', style: kTextStylAddRecipe),
+                      GestureDetector(
+                        child: Text('Create account', style: kTextStyleProfile),
+                        onTap: () {
+                          Navigator.pushReplacementNamed(context, '/register');
+                        },
+                      ),
+                    ],
                   ),
                 ],
               )

@@ -23,7 +23,16 @@ class RegisterPage extends StatelessWidget {
                       'Name',
                       style: kTextStylAddRecipe,
                     ),
-                    TextField(),
+                    SizedBox(height: 5),
+                    TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black)),
+                          //hintText: 'Email adress',
+                          hintStyle: kTextStyleTextField,
+                        ),
+                        keyboardType: TextInputType.text),
                   ]),
               Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,7 +41,16 @@ class RegisterPage extends StatelessWidget {
                       'Email adress',
                       style: kTextStylAddRecipe,
                     ),
-                    TextField(),
+                    SizedBox(height: 5),
+                    TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black)),
+                          //hintText: 'Email adress',
+                          hintStyle: kTextStyleTextField,
+                        ),
+                        keyboardType: TextInputType.text),
                   ]),
               Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,13 +59,24 @@ class RegisterPage extends StatelessWidget {
                       'Password',
                       style: kTextStylAddRecipe,
                     ),
-                    TextField(),
+                    SizedBox(height: 5),
+                    TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black)),
+                          //hintText: 'Email adress',
+                          hintStyle: kTextStyleTextField,
+                        ),
+                        keyboardType: TextInputType.text),
                   ]),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushReplacementNamed(context, '/main_page');
+                      },
                       child: Container(
                         width: 206,
                         height: 54,
@@ -58,7 +87,7 @@ class RegisterPage extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            Text('Login', style: kTextStylAddButtonPurple),
+                            Text('Register', style: kTextStylAddButtonPurple),
                             Icon(
                               Icons.arrow_forward,
                               color: kColorPurple,
@@ -68,17 +97,23 @@ class RegisterPage extends StatelessWidget {
                       )),
                 ],
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('Already have an account?', style: kTextStylAddRecipe),
-                  GestureDetector(
-                    child: Text('Login', style: kTextStyleProfile),
-                    onTap: () {},
-                  ),
+                  Column(
+                    children: <Widget>[
+                      Text('Already have an account?',
+                          style: kTextStylAddRecipe),
+                      GestureDetector(
+                        child: Text('Login', style: kTextStyleProfile),
+                        onTap: () {
+                          Navigator.pushReplacementNamed(context, '/login');
+                        },
+                      ),
+                    ],
+                  )
                 ],
-              )
+              ),
             ],
           ),
         ),
