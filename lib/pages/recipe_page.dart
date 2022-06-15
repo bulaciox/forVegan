@@ -165,6 +165,8 @@ class _RecipePageState extends State<RecipePage> {
                                         GestureDetector(
                                             onTap: () {
                                               sendReport(reportText);
+                                              Navigator.of(context)
+                                                  .pop(context);
                                             },
                                             child: Container(
                                               width: 206,
