@@ -84,7 +84,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Email adress',
+                      'Email address',
                       style: kTextStylAddRecipe,
                     ),
                     const SizedBox(height: 5),
@@ -94,7 +94,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           border: const OutlineInputBorder(),
                           focusedBorder: const OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.black)),
-                          //hintText: 'Email adress',
+                          //hintText: 'Email address',
                           hintStyle: kTextStyleTextField,
                         ),
                         keyboardType: TextInputType.text),
@@ -115,7 +115,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           focusedBorder: const OutlineInputBorder(
                               borderSide:
                                   const BorderSide(color: Colors.black)),
-                          //hintText: 'Email adress',
+                          //hintText: 'Email address',
                           hintStyle: kTextStyleTextField,
                         ),
                         keyboardType: TextInputType.text),
