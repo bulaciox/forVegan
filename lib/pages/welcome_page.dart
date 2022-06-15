@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:for_vegan/konstants.dart';
-import 'package:for_vegan/pages/login.dart';
 import 'package:for_vegan/pages/login_page.dart';
 
 class WelcomePage extends StatefulWidget {

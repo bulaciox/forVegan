@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:for_vegan/konstants.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 // import 'package:share_plus/share_plus.dart';
 
@@ -26,8 +27,10 @@ class _RecipePageState extends State<RecipePage> {
   var recIns = '';
   var reportText = '';
   final _auth = FirebaseAuth.instance;
+  var finalData = Object();
+  bool fav = false;
 
-  var allRecipes = [];
+  var user_Id = '';
   @override
   void initState() {
     super.initState();
@@ -53,7 +56,9 @@ class _RecipePageState extends State<RecipePage> {
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       final allData = documentSnapshot;
+      // print(finalData);
       setState(() {
+        finalData = (allData.data())!;
         recTitle = allData.get('title');
         recId = allData.get('id').toString();
         recTime = allData.get('time');
@@ -74,15 +79,25 @@ class _RecipePageState extends State<RecipePage> {
               .where("Email", isEqualTo: user.email)
               .get()
               .then((QuerySnapshot querySnapshot) {
-            final favData =
-                querySnapshot.docs.map((doc) => doc.data()).toList();
-            setState(() {
-              allRecipes = favData;
+            final userId = querySnapshot.docs.map((doc) => doc.id).toList();
+            for (var element in userId) {
+              setState(() {
+                user_Id = element.toString();
+              });
+            }
+            users.doc(user_Id).update(
+              {
+                'Favorite_Recipes': FieldValue.arrayUnion([
+                  finalData,
+                ]),
+              },
+            ).then((value) {
+              print('updated');
+              setState(() {
+                fav = true;
+              });
             });
           });
-          users.doc('oRigkS0edLRqXaUH1J1Z').update({
-            'Favorite_Recipes': FieldValue.arrayUnion([widget.id.toString()])
-          }).then((value) => print('updated'));
         }
       });
     }
@@ -97,11 +112,15 @@ class _RecipePageState extends State<RecipePage> {
                   content: Text('Sucessfully accepted !'),
                 ),
               })
+          // ignore: invalid_return_type_for_catch_error
           .catchError((error) => const SnackBar(
                 content: Text("Something went wrong!"),
               ));
       ;
     }
+
+    var shareText =
+        "Recipes Name: $recTitle \nRecipes Time: $recTime min \nRecipes Ingredients: $recIng \nRecipes Instructions: $recIns";
 
     return Scaffold(
       backgroundColor: kColorGrey,
@@ -126,8 +145,6 @@ class _RecipePageState extends State<RecipePage> {
                       GestureDetector(
                           onTap: () {
                             showModalBottomSheet(
-                              // enableDrag: true,
-                              // isDismissible: true,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(24),
@@ -138,7 +155,6 @@ class _RecipePageState extends State<RecipePage> {
                               builder: (context) => Padding(
                                 padding: const EdgeInsets.all(17.0),
                                 child: Column(
-                                  //mainAxisSize: MainAxisSize.min,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text('Report an error in the recipe',
@@ -231,15 +247,21 @@ class _RecipePageState extends State<RecipePage> {
                         Row(
                           children: <Widget>[
                             GestureDetector(
+                              onTap: (() async => await Share.share(shareText)),
                               child: Image.asset('assets/icons/icon_share.png'),
                             ),
                             SizedBox(width: 7),
                             GestureDetector(
-                              onTap: (() => addTofav()),
-                              child: Image.asset(
-                                'assets/icons/icon_like.png',
-                                scale: 1,
-                              ),
+                              onTap: (() async => await addTofav()),
+                              child: !fav
+                                  ? Image.asset(
+                                      'assets/icons/icon_like.png',
+                                      scale: 1,
+                                    )
+                                  : Image.asset(
+                                      'assets/icons/icon_like2.png',
+                                      scale: 0.8,
+                                    ),
                             )
                           ],
                         )

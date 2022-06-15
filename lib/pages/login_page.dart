@@ -20,12 +20,10 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     login(email, password) async {
-      CollectionReference users =
-          FirebaseFirestore.instance.collection('Users');
       try {
         _auth.signInWithEmailAndPassword(email: email, password: password);
         const AlertDialog(
-          content: Text('Sucessfully Signup !'),
+          content: Text('Sucessfully Login !'),
         );
         Navigator.pushAndRemoveUntil(
             context,

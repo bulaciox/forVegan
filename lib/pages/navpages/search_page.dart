@@ -36,7 +36,7 @@ class _SearchPageState extends State<SearchPage> {
       CollectionReference recipes =
           FirebaseFirestore.instance.collection('Recipes');
       recipes
-          .where('title', isLessThanOrEqualTo: value)
+          .where('title', isEqualTo: value)
           .get()
           .then((QuerySnapshot querySnapshot) {
         final allData = querySnapshot.docs.map((doc) => doc.data());

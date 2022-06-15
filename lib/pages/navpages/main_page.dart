@@ -5,7 +5,6 @@ import 'package:for_vegan/pages/navpages/fav_page.dart';
 import 'package:for_vegan/pages/navpages/profile_page.dart';
 import 'package:for_vegan/pages/navpages/search_page.dart';
 import 'package:for_vegan/pages/navpages/home_page.dart';
-import 'package:for_vegan/pages/signup.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);

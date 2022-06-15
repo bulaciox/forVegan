@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:for_vegan/konstants.dart';
+import 'package:for_vegan/pages/add_recipe_page.dart';
+import 'package:for_vegan/pages/send_suggestions_page.dart';
 
 class AddPage extends StatelessWidget {
   const AddPage({Key? key}) : super(key: key);
@@ -20,7 +22,8 @@ class AddPage extends StatelessWidget {
             Expanded(
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, '/add_recipe');
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AddRecipePage()));
                 },
                 child: Card(
                   color: kColorPurple,
@@ -42,7 +45,10 @@ class AddPage extends StatelessWidget {
             Expanded(
               child: GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, '/send_suggestions');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SendSuggestionsPage()));
                   },
                   child: Card(
                       color: kColorPurple,

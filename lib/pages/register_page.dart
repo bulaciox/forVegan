@@ -35,8 +35,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   const SnackBar(
                     content: Text('Sucessfully Signup !'),
                   ),
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginPage()))
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginPage()))
                 })
             .catchError((error) => const SnackBar(
                   content: Text("Something went wrong!"),
@@ -123,10 +125,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 children: [
                   GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginPage()));
+                        signup(fullName, email, password);
                       },
                       child: Container(
                         width: 206,

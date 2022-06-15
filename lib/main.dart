@@ -1,12 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:for_vegan/pages/Start_screen.dart';
 import 'package:for_vegan/pages/add_recipe_page.dart';
 import 'package:for_vegan/pages/navpages/main_page.dart';
 import 'package:for_vegan/pages/send_suggestions_page.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:for_vegan/pages/signup.dart';
 import 'package:for_vegan/pages/welcome_page.dart';
 import 'package:for_vegan/pages/login_page.dart';
 import 'package:for_vegan/pages/register_page.dart';

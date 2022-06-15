@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:for_vegan/pages/recipe_page.dart';
@@ -50,141 +52,158 @@ class _HomePageState extends State<HomePage> {
     }
 
     // print(filterRecipes);
-    return SafeArea(
-      child: Container(
-        // color: kColorGrey,
-        margin: EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text('Trending now', style: kTextStyleTitle),
-            Container(
-              height: 238,
-              //color: Colors.red,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  ...allRecipes
-                      .map<Widget>((rec) => GestureDetector(
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => RecipePage(id: rec['id']),
-                              ),
-                            ),
-                            child: Card(
-                              //elevation: 16, //sombreado
-                              clipBehavior: Clip.antiAlias,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                      width: 280,
-                                      height: 180,
-                                      child: Image.network(
-                                        rec['image'],
-                                        fit: BoxFit.fitWidth,
-                                        height: 150,
-                                      )),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10, horizontal: 5),
-                                    child: Text(rec['title'],
-                                        overflow: TextOverflow.ellipsis,
-                                        softWrap: false,
-                                        style: TextStyle(fontSize: 17)),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ))
-                      .toList()
-                ],
-              ),
-            ),
-            SizedBox(height: 20),
-            Text('Popular categories', style: kTextStyleTitle),
-            SizedBox(height: 20),
-            Container(
-              height: 40,
-              //color: Colors.blueAccent,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: <Widget>[
-                  ...allRecipes
-                      .map<Widget>(
-                        (cat) => GestureDetector(
-                            onTap: () => handleCat(cat['categories']),
-                            child: Card(
-                              color: selected ? Colors.red : Colors.white,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 8.0, horizontal: 12.0),
-                                child: Center(
-                                  child: Text(
-                                    cat['categories'],
-                                    style: const TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14,
-                                      color: Color.fromRGBO(122, 122, 199, 1.0),
-                                    ),
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 30),
+          child: Container(
+            alignment: Alignment.center,
+            // color: kColorGrey,
+            margin: EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text('Trending now', style: kTextStyleTitle),
+                Container(
+                  alignment: Alignment.center,
+                  height: 238,
+                  //color: Colors.red,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      ...allRecipes
+                          .map<Widget>((rec) => GestureDetector(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        RecipePage(id: rec['id']),
                                   ),
                                 ),
-                              ),
-                            )),
-                      )
-                      .toList(),
-                ],
-              ),
-            ),
-            SizedBox(height: 30),
-            Container(
-              height: 238,
-              //color: Colors.red,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  ...filterRecipes
-                      .map<Widget>((rec) => GestureDetector(
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => RecipePage(id: rec['id']),
-                              ),
-                            ),
-                            child: Card(
-                              //elevation: 16, //sombreado
-                              clipBehavior: Clip.antiAlias,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                      width: 280,
-                                      height: 180,
-                                      child: Image.network(
-                                        rec['image'],
-                                        fit: BoxFit.fitWidth,
-                                        height: 150,
-                                      )),
-                                  Padding(
+                                child: Card(
+                                  //elevation: 16, //sombreado
+                                  clipBehavior: Clip.antiAlias,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                          alignment: Alignment.center,
+                                          width: 320,
+                                          height: 180,
+                                          child: Image.network(
+                                            rec['image'],
+                                            fit: BoxFit.fill,
+                                            height: 190,
+                                            width: 330,
+                                          )),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10, horizontal: 5),
+                                        child: Text(rec['title'],
+                                            overflow: TextOverflow.ellipsis,
+                                            softWrap: false,
+                                            style: TextStyle(fontSize: 17)),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ))
+                          .toList()
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20),
+                Text('Popular categories', style: kTextStyleTitle),
+                SizedBox(height: 20),
+                Container(
+                  alignment: Alignment.center,
+                  height: 40,
+                  //color: Colors.blueAccent,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      ...allRecipes
+                          .map<Widget>(
+                            (cat) => GestureDetector(
+                                onTap: () => handleCat(cat['categories']),
+                                child: Card(
+                                  color: selected ? Colors.red : Colors.white,
+                                  child: Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 10, horizontal: 5),
-                                    child: Text(rec['title'],
-                                        overflow: TextOverflow.ellipsis,
-                                        softWrap: false,
-                                        style: TextStyle(fontSize: 17)),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ))
-                      .toList()
-                      .reversed
-                ],
-              ),
+                                        vertical: 8.0, horizontal: 12.0),
+                                    child: Center(
+                                      child: Text(
+                                        cat['categories'],
+                                        style: const TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14,
+                                          color: Color.fromRGBO(
+                                              122, 122, 199, 1.0),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )),
+                          )
+                          .toList(),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 30),
+                Container(
+                  height: 238,
+                  //color: Colors.red,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      ...filterRecipes
+                          .map<Widget>((rec) => GestureDetector(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        RecipePage(id: rec['id']),
+                                  ),
+                                ),
+                                child: Card(
+                                  //elevation: 16, //sombreado
+                                  clipBehavior: Clip.antiAlias,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                          alignment: Alignment.center,
+                                          width: 320,
+                                          height: 180,
+                                          child: Image.network(
+                                            rec['image'],
+                                            fit: BoxFit.fill,
+                                            height: 190,
+                                            width: 330,
+                                          )),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10, horizontal: 5),
+                                        child: Text(rec['title'],
+                                            overflow: TextOverflow.ellipsis,
+                                            softWrap: false,
+                                            style: TextStyle(fontSize: 17)),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ))
+                          .toList()
+                          .reversed
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

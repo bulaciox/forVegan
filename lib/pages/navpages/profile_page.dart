@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:for_vegan/konstants.dart';
+import 'package:for_vegan/pages/welcome_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        margin: EdgeInsets.all(15.0),
+        margin: const EdgeInsets.all(15.0),
         child: Column(
           children: <Widget>[
             Row(
@@ -26,8 +27,8 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             Image.asset("assets/images/avatar_user.png"),
-            SizedBox(height: 10.0),
-            Text(
+            const SizedBox(height: 10.0),
+            const Text(
               'Marta Salmeron Blas',
               style: TextStyle(
                 fontFamily: 'Poppins',
@@ -35,71 +36,78 @@ class _ProfilePageState extends State<ProfilePage> {
                 fontSize: 17.52,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Expanded(
               child: Container(
-                margin: EdgeInsets.all(7.0),
+                margin: const EdgeInsets.all(7.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Row(children: <Widget>[
-                      Icon(Icons.person),
-                      SizedBox(width: 10),
+                      const Icon(Icons.person),
+                      const SizedBox(width: 10),
                       Text('Account preferences', style: kTextStyleProfile),
-                      Expanded(child: SizedBox()),
-                      Icon(Icons.arrow_forward)
+                      const Expanded(child: SizedBox()),
+                      const Icon(Icons.arrow_forward)
                     ]),
                     Row(children: <Widget>[
-                      Icon(Icons.language),
-                      SizedBox(width: 10),
+                      const Icon(Icons.language),
+                      const SizedBox(width: 10),
                       Text('Language', style: kTextStyleProfile),
-                      Expanded(child: SizedBox()),
-                      Icon(Icons.arrow_forward)
+                      const Expanded(child: SizedBox()),
+                      const Icon(Icons.arrow_forward)
                     ]),
                     Row(children: <Widget>[
-                      Icon(Icons.star),
-                      SizedBox(width: 10),
+                      const Icon(Icons.star),
+                      const SizedBox(width: 10),
                       Text('Rate app', style: kTextStyleProfile),
-                      Expanded(child: SizedBox()),
-                      Icon(Icons.arrow_forward)
+                      const Expanded(child: SizedBox()),
+                      const Icon(Icons.arrow_forward)
                     ]),
                     Row(children: <Widget>[
-                      Icon(Icons.share),
-                      SizedBox(width: 10),
+                      const Icon(Icons.share),
+                      const SizedBox(width: 10),
                       Text('Share App', style: kTextStyleProfile),
-                      Expanded(child: SizedBox()),
-                      Icon(Icons.arrow_forward)
+                      const Expanded(child: SizedBox()),
+                      const Icon(Icons.arrow_forward)
                     ]),
                     Row(children: <Widget>[
-                      Icon(Icons.receipt),
-                      SizedBox(width: 10),
+                      const Icon(Icons.receipt),
+                      const SizedBox(width: 10),
                       Text('Acknowledgements', style: kTextStyleProfile),
-                      Expanded(child: SizedBox()),
-                      Expanded(child: SizedBox()),
-                      Icon(Icons.arrow_forward)
+                      const Expanded(child: SizedBox()),
+                      const Expanded(child: SizedBox()),
+                      const Icon(Icons.arrow_forward)
                     ]),
                     Row(children: <Widget>[
-                      Icon(Icons.shield),
-                      SizedBox(width: 10),
+                      const Icon(Icons.shield),
+                      const SizedBox(width: 10),
                       Text('Privacy Police', style: kTextStyleProfile),
-                      Expanded(child: SizedBox()),
-                      Icon(Icons.arrow_forward)
+                      const Expanded(child: const SizedBox()),
+                      const Icon(Icons.arrow_forward)
                     ]),
                     Row(children: <Widget>[
-                      Icon(Icons.file_copy_rounded),
-                      SizedBox(width: 10),
+                      const Icon(Icons.file_copy_rounded),
+                      const SizedBox(width: 10),
                       Text('Terms of service', style: kTextStyleProfile),
-                      Expanded(child: SizedBox()),
-                      Icon(Icons.arrow_forward)
+                      const Expanded(child: SizedBox()),
+                      const Icon(Icons.arrow_forward)
                     ]),
                     GestureDetector(
-                      onTap: () => {_auth.signOut()},
+                      onTap: () => {
+                        _auth.signOut().then((value) =>
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const WelcomePage()),
+                                (route) => false)),
+                      },
                       child: Row(children: <Widget>[
-                        Icon(Icons.logout),
-                        SizedBox(width: 10),
+                        const Icon(Icons.logout),
+                        const SizedBox(width: 10),
                         Text('Logout', style: kTextStyleProfile),
-                        Expanded(child: SizedBox()),
-                        Icon(Icons.arrow_forward)
+                        const Expanded(child: SizedBox()),
+                        const Icon(Icons.arrow_forward)
                       ]),
                     )
                   ],
