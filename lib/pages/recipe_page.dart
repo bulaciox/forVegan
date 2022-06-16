@@ -113,7 +113,11 @@ class _RecipePageState extends State<RecipePage> {
       CollectionReference reports =
           FirebaseFirestore.instance.collection('RecipsReport');
       reports
-          .add({'Error message': reportText, 'Recipe_Id': widget.id.toString()})
+          .add({
+            'Error message': reportText,
+            'Recipe_Id': widget.id.toString(),
+            'User_email': _auth.currentUser?.email
+          })
           .then(
             (value) => {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
