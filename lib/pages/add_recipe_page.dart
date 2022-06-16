@@ -12,20 +12,44 @@ class AddRecipePage extends StatefulWidget {
 class _AddRecipePageState extends State<AddRecipePage> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  TextEditingController titleC = TextEditingController();
-  TextEditingController categoriesC = TextEditingController();
-  TextEditingController imageUrlController = TextEditingController();
-  late String title;
-  late String categories;
-  late String image;
-  late String description;
-  late String ingredients;
-  late String time;
+  final titleController = TextEditingController();
+  final imageController = TextEditingController();
+  final caloriesController = TextEditingController();
+  final timeController = TextEditingController();
+  final ingredientsController = TextEditingController();
+  final instructionsController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     CollectionReference recipes =
-        FirebaseFirestore.instance.collection('Recipes');
+        FirebaseFirestore.instance.collection('userRecipes');
 
+    Future createRecipe(
+        {String? title,
+        String? calories,
+        String? time,
+        String? ingredients,
+        String? instructions,
+        String? image}) async {
+      final docRecipe =
+          FirebaseFirestore.instance.collection('userRecipes').doc();
+
+      final json = {
+        'title': title,
+        'calories': calories,
+        'time': time,
+        'ingredients': ingredients,
+        'instructions': instructions,
+        'image': image,
+      };
+
+      print(json);
+      await docRecipe.set(json);
+    }
+
+    ;
+
+    /*
     Future<void> addRecipes(String title, String categories, String image,
         String description, String ingredients, String time) {
       return recipes
@@ -40,6 +64,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
           .then((value) => Navigator.pushNamed(context, '/'))
           .catchError((error) => print("Failed to add user: $error"));
     }
+    */
 
     return SafeArea(
       child: Scaffold(
@@ -68,8 +93,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
               Text('Title', style: kTextStylAddRecipe),
               SizedBox(height: 5),
               TextField(
-                  controller: titleC,
-                  onChanged: (value) => title = value,
+                  controller: titleController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
@@ -78,15 +102,15 @@ class _AddRecipePageState extends State<AddRecipePage> {
                     hintStyle: kTextStyleTextField,
                   ),
                   keyboardType: TextInputType.text),
-              Text('Image', style: kTextStylAddRecipe),
+              Text('ImageURL', style: kTextStylAddRecipe),
               SizedBox(height: 5),
               TextField(
-                  onChanged: (value) => image = value,
+                  controller: imageController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: kColorPurple)),
-                    hintText: 'Insert image here',
+                    hintText: 'Insert imageURL here',
                     hintStyle: kTextStyleTextField,
                   ),
                   keyboardType: TextInputType.text),
@@ -104,8 +128,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
                         ),
                         SizedBox(height: 5),
                         TextField(
-                            onChanged: (value) => categories = value,
-                            controller: categoriesC,
+                            controller: caloriesController,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               focusedBorder: OutlineInputBorder(
@@ -128,7 +151,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
                       ),
                       SizedBox(height: 5),
                       TextField(
-                          onChanged: (value) => time = value,
+                          controller: timeController,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             focusedBorder: OutlineInputBorder(
@@ -145,8 +168,8 @@ class _AddRecipePageState extends State<AddRecipePage> {
               Text('Ingredients', style: kTextStylAddRecipe),
               SizedBox(height: 5),
               TextField(
-                  onChanged: (value) => ingredients = value,
-                  maxLines: 5,
+                  controller: ingredientsController,
+                  maxLines: 4,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
@@ -156,16 +179,16 @@ class _AddRecipePageState extends State<AddRecipePage> {
                   ),
                   keyboardType: TextInputType.text),
               SizedBox(height: 8),
-              Text('Steps', style: kTextStylAddRecipe),
+              Text('Instructions', style: kTextStylAddRecipe),
               SizedBox(height: 5),
               TextField(
-                  maxLines: 5,
-                  onChanged: (value) => description = value,
+                  controller: instructionsController,
+                  maxLines: 4,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: kColorPurple)),
-                    hintText: 'Insert steps here',
+                    hintText: 'Insert instructions here',
                     hintStyle: kTextStyleTextField,
                   ),
                   keyboardType: TextInputType.text),
@@ -175,8 +198,14 @@ class _AddRecipePageState extends State<AddRecipePage> {
                 children: [
                   GestureDetector(
                       onTap: () {
-                        addRecipes(title, categories, time, description, image,
-                            ingredients);
+                        createRecipe(
+                            title: titleController.text,
+                            calories: caloriesController.text,
+                            time: timeController.text,
+                            ingredients: ingredientsController.text,
+                            instructions: instructionsController.text,
+                            image: imageController.text);
+                        Navigator.pop(context);
                       },
                       child: Container(
                         width: 206,
