@@ -15,140 +15,37 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   String name = "";
+
+  final controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            backgroundColor: Colors.white,
-            title: Card(
-              child: TextField(
-                decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.search), hintText: 'Search...'),
-                onChanged: (val) {
-                  setState(() {
-                    name = val;
-                  });
-                },
-              ),
-            )),
-        body: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('Recipes').snapshots(),
-          builder: (context, snapshots) {
-            return (snapshots.connectionState == ConnectionState.waiting)
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : ListView.builder(
-                    itemCount: snapshots.data!.docs.length,
-                    itemBuilder: (context, index) {
-                      var data = snapshots.data!.docs[index].data()
-                          as Map<String, dynamic>;
-
-                      if (name.isEmpty) {
-                        return ListTile(
-                            onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        RecipePage(id: data['id']),
-                                  ),
-                                ),
-                            title: Text(
-                              data['title'],
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: kTextStyleSearchItem,
-                            ),
-                            leading: Image(image: NetworkImage(data['image'])));
-                      }
-                      if (data['title']
-                          .toString()
-                          .toLowerCase()
-                          .contains(name.toLowerCase())) {
-                        return ListTile(
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => RecipePage(id: data['id']),
-                            ),
-                          ),
-                          title: Text(
-                            data['title'],
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: kTextStyleSearchItem,
-                          ),
-                          leading: Image(
-                              image: NetworkImage(
-                            data['image'],
-                          )),
-                        );
-                      }
-                      return Container();
-                    });
-          },
-        ));
-  }
-}
-
-/*class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key}) : super(key: key);
-
-  @override
-  State<SearchPage> createState() => _SearchPageState();
-}
-
-class _SearchPageState extends State<SearchPage> {
-  var allRecipes = [];
-  var filterRecipes = [];
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    CollectionReference recipes =
-        FirebaseFirestore.instance.collection('Recipes');
-    recipes.get().then((QuerySnapshot querySnapshot) {
-      final allData = querySnapshot.docs.map((doc) => doc.data());
-      setState(() {
-        allRecipes =
-            filterRecipes.isEmpty ? allData.toList() : filterRecipes.toList();
-      });
-    });
-
-    handleSearch(value) {
-      CollectionReference recipes =
-          FirebaseFirestore.instance.collection('Recipes');
-      recipes
-          .where('title', isEqualTo: value)
-          .get()
-          .then((QuerySnapshot querySnapshot) {
-        final allData = querySnapshot.docs.map((doc) => doc.data());
-        setState(() {
-          filterRecipes = allData.toList();
-        });
-      });
-    }
-
-    return SingleChildScrollView(
-      child: SafeArea(
+      body: SafeArea(
         child: Container(
           margin: EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text('Discover', style: kTextStyleTitle),
-              SizedBox(height: 12),
+              SizedBox(height: 10),
               TextField(
-                onChanged: (value) => handleSearch(value),
+                controller: controller,
+                onChanged: (val) {
+                  setState(() {
+                    name = val;
+                  });
+                },
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.search),
                   suffixIcon: IconButton(
                     icon: Icon(Icons.clear),
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        controller.text = "";
+                        name = "";
+                      });
+                    },
                   ),
                   hintText: 'Search for your desired recipe',
                   border: OutlineInputBorder(),
@@ -158,50 +55,106 @@ class _SearchPageState extends State<SearchPage> {
                 ),
                 keyboardType: TextInputType.text,
               ),
-              SizedBox(height: 22),
-              Container(
-                height: MediaQuery.of(context).size.height * 1.5,
-                child: ListView(
-                  scrollDirection: Axis.vertical,
-                  children: [
-                    ...allRecipes
-                        .map<Widget>((rec) => GestureDetector(
-                              onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      RecipePage(id: rec['id']),
-                                ),
-                              ),
-                              child: Card(
-                                //elevation: 16, //sombreado
-                                margin: EdgeInsets.symmetric(vertical: 10),
-                                clipBehavior: Clip.antiAlias,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                        width: 380,
-                                        height: 180,
-                                        child: Image.network(
-                                          rec['image'],
-                                          fit: BoxFit.fitWidth,
-                                          height: 150,
-                                        )),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10, horizontal: 5),
-                                      child: Text(rec['title'],
-                                          overflow: TextOverflow.ellipsis,
-                                          softWrap: false,
-                                          style: TextStyle(fontSize: 17)),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ))
-                        .toList()
-                  ],
+              SizedBox(height: 15),
+              Expanded(
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('Recipes')
+                      .snapshots(),
+                  builder: (context, snapshots) {
+                    return (snapshots.connectionState ==
+                            ConnectionState.waiting)
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : ListView.builder(
+                            itemCount: snapshots.data!.docs.length,
+                            itemBuilder: (context, index) {
+                              var data = snapshots.data!.docs[index].data()
+                                  as Map<String, dynamic>;
+
+                              if (name.isEmpty) {
+                                return GestureDetector(
+                                  onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          RecipePage(id: data['id']),
+                                    ),
+                                  ),
+                                  child: Card(
+                                    //elevation: 16, //sombreado
+                                    margin: EdgeInsets.symmetric(vertical: 10),
+                                    clipBehavior: Clip.antiAlias,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                            width: 380,
+                                            height: 100,
+                                            child: Image.network(
+                                              data['image'],
+                                              fit: BoxFit.fitWidth,
+                                              height: 120,
+                                            )),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 5),
+                                          child: Text(data['title'],
+                                              overflow: TextOverflow.ellipsis,
+                                              softWrap: false,
+                                              style: TextStyle(fontSize: 17)),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }
+                              if (data['title']
+                                  .toString()
+                                  .toLowerCase()
+                                  .contains(name.toLowerCase())) {
+                                return GestureDetector(
+                                  onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          RecipePage(id: data['id']),
+                                    ),
+                                  ),
+                                  child: Card(
+                                    //elevation: 16, //sombreado
+                                    margin: EdgeInsets.symmetric(vertical: 10),
+                                    clipBehavior: Clip.antiAlias,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                            width: 380,
+                                            height: 100,
+                                            child: Image.network(
+                                              data['image'],
+                                              fit: BoxFit.fitWidth,
+                                              height: 120,
+                                            )),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 5),
+                                          child: Text(data['title'],
+                                              overflow: TextOverflow.ellipsis,
+                                              softWrap: false,
+                                              style: TextStyle(fontSize: 17)),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }
+                              return Container();
+                            });
+                  },
                 ),
               )
             ],
@@ -211,6 +164,3 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 }
-
-
- */
