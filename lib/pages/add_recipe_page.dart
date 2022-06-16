@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:for_vegan/konstants.dart';
-import 'package:for_vegan/pages/navpages/main_page.dart';
 
 class AddRecipePage extends StatefulWidget {
   const AddRecipePage({Key? key}) : super(key: key);
@@ -14,7 +13,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   final titleController = TextEditingController();
-  final imageController = TextEditingController();
+  final imageURLController = TextEditingController();
   final caloriesController = TextEditingController();
   final timeController = TextEditingController();
   final ingredientsController = TextEditingController();
@@ -25,37 +24,16 @@ class _AddRecipePageState extends State<AddRecipePage> {
     CollectionReference recipes =
         FirebaseFirestore.instance.collection('userRecipes');
 
-    Future createRecipe(
+    Future<void> addRecipes(
         {String? title,
         String? calories,
-        String? time,
-        String? ingredients,
+        String? image,
         String? instructions,
-        String? image}) async {
-      final docRecipe =
-          FirebaseFirestore.instance.collection('userRecipes').doc();
-
-      final json = {
-        'title': title,
-        'calories': calories,
-        'time': time,
-        'ingredients': ingredients,
-        'instructions': instructions,
-        'image': image,
-      };
-
-      print(json);
-      await docRecipe.set(json);
-    }
-
-    ;
-
-    /*
-    Future<void> addRecipes(String title, String categories, String image,
-        String description, String ingredients, String time) {
+        String? ingredients,
+        String? time}) {
       return recipes.add({
-        'categories': categories,
-        'description': description,
+        'calories': calories,
+        'instructions': instructions,
         'image': image,
         'ingredients': ingredients,
         'time': time,
@@ -74,7 +52,6 @@ class _AddRecipePageState extends State<AddRecipePage> {
                 content: Text("Something went wrong!"),
               )));
     }
-    */
 
     return SafeArea(
       child: Scaffold(
@@ -115,7 +92,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
               Text('ImageURL', style: kTextStylAddRecipe),
               SizedBox(height: 5),
               TextField(
-                  controller: imageController,
+                  controller: imageURLController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
@@ -192,8 +169,8 @@ class _AddRecipePageState extends State<AddRecipePage> {
               Text('Instructions', style: kTextStylAddRecipe),
               SizedBox(height: 5),
               TextField(
-                  controller: instructionsController,
                   maxLines: 4,
+                  controller: instructionsController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
@@ -208,14 +185,13 @@ class _AddRecipePageState extends State<AddRecipePage> {
                 children: [
                   GestureDetector(
                       onTap: () {
-                        createRecipe(
+                        addRecipes(
                             title: titleController.text,
+                            image: imageURLController.text,
                             calories: caloriesController.text,
                             time: timeController.text,
                             ingredients: ingredientsController.text,
-                            instructions: instructionsController.text,
-                            image: imageController.text);
-                        Navigator.pop(context);
+                            instructions: instructionsController.text);
                       },
                       child: Container(
                         width: 206,
