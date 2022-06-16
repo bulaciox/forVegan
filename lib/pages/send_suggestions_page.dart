@@ -19,7 +19,7 @@ class _SendSuggestionsPageState extends State<SendSuggestionsPage> {
   @override
   Widget build(BuildContext context) {
     CollectionReference suggestions =
-        FirebaseFirestore.instance.collection('suggestions');
+        FirebaseFirestore.instance.collection('userSuggestions');
     void addSugges(String title, String argument) async {
       return suggestions.add({'title': title, 'argument': argument}).then(
         (value) {

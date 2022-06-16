@@ -126,7 +126,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SizedBox(height: 20),
                 Text('Popular categories', style: kTextStyleTitle),
-                SizedBox(height: 20),
+                SizedBox(height: 2),
                 Container(
                   alignment: Alignment.center,
                   height: 40,
@@ -184,7 +184,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-                SizedBox(height: 30),
+                SizedBox(height: 10),
                 Container(
                   height: 238,
                   //color: Colors.red,
