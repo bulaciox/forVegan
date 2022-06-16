@@ -25,32 +25,51 @@ class _FavPageState extends State<FavPage> {
 
   @override
   Widget build(BuildContext context) {
-    _auth.authStateChanges().listen((User? user) {
-      if (user == null) {
-        print(user?.uid);
-      } else {
-        CollectionReference users =
-            FirebaseFirestore.instance.collection('Users');
-        users
-            .where("Email", isEqualTo: user.email)
-            .get()
-            .then((QuerySnapshot querySnapshot) {
-          final userId = querySnapshot.docs.map((doc) => doc.id).toList();
-          for (var element in userId) {
-            setState(() {
-              user_Id = element.toString();
-            });
-          }
-        });
-        users.doc(user_Id).get().then((DocumentSnapshot documentsnapshot) {
-          setState(() {
-            allRecipes = documentsnapshot.get('Favorite_Recipes');
+    favPage() {
+      _auth.authStateChanges().listen((User? user) {
+        if (user == null) {
+          print(user?.uid);
+        } else {
+          CollectionReference users =
+              FirebaseFirestore.instance.collection('Users');
+          users
+              .where("Email", isEqualTo: user.email)
+              .get()
+              .then((QuerySnapshot querySnapshot) {
+            final userId = querySnapshot.docs.map((doc) => doc.id).toList();
+            for (var element in userId) {
+              setState(() {
+                user_Id = element.toString();
+              });
+            }
           });
-        });
-      }
-    });
+          users.doc(user_Id).get().then((DocumentSnapshot documentsnapshot) {
+            setState(() {
+              allRecipes = documentsnapshot.get('Favorite_Recipes');
+            });
+          });
+        }
+      });
+    }
 
-    // print(allRecipes);
+    deleteRecipe(value) async {
+      CollectionReference users =
+          FirebaseFirestore.instance.collection('Users');
+      users.doc(user_Id).get().then((DocumentSnapshot documentsnapshot) {
+        allRecipes = documentsnapshot.get('Favorite_Recipes');
+        for (var element in (allRecipes)) {
+          if (value == element['id']) {
+            users.doc(user_Id).update(
+              {
+                'Favorite_Recipes': FieldValue.arrayRemove([element]),
+              },
+            );
+          }
+        }
+      });
+    }
+
+    favPage();
     return SafeArea(
       child: Container(
         margin: const EdgeInsets.all(20.0),
@@ -60,7 +79,6 @@ class _FavPageState extends State<FavPage> {
             Text('Favourites', style: kTextStyleTitle),
             const SizedBox(height: 9),
             Expanded(
-                //Cuando son de tamaño variable usar ListView.builder
                 child: allRecipes.isEmpty
                     ? const Text("Nothing in favourites")
                     : ListView(
@@ -89,10 +107,24 @@ class _FavPageState extends State<FavPage> {
                                             fit: BoxFit.cover,
                                           ),
                                           Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Text(rec['title'],
-                                                style: kTextStyleCardText),
-                                          )
+                                              padding:
+                                                  const EdgeInsets.all(10.0),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(rec['title'],
+                                                      style:
+                                                          kTextStyleCardText),
+                                                  GestureDetector(
+                                                    onTap: () =>
+                                                        deleteRecipe(rec['id']),
+                                                    child: const Icon(
+                                                        Icons.delete),
+                                                  )
+                                                ],
+                                              ))
                                         ],
                                       ),
                                     ),

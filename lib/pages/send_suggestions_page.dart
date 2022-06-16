@@ -1,6 +1,9 @@
+// ignore_for_file: invalid_return_type_for_catch_error
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:for_vegan/konstants.dart';
+import 'package:for_vegan/pages/navpages/main_page.dart';
 
 class SendSuggestionsPage extends StatefulWidget {
   const SendSuggestionsPage({Key? key}) : super(key: key);
@@ -17,11 +20,23 @@ class _SendSuggestionsPageState extends State<SendSuggestionsPage> {
   Widget build(BuildContext context) {
     CollectionReference suggestions =
         FirebaseFirestore.instance.collection('suggestions');
-    Future<Future<Object?>> addSugges(String title, String argument) async {
-      return suggestions
-          .add({'title': title, 'argument': argument})
-          .then((value) => Navigator.pushNamed(context, '/'))
-          .catchError((error) => print("Failed to add user: $error"));
+    void addSugges(String title, String argument) async {
+      return suggestions.add({'title': title, 'argument': argument}).then(
+        (value) {
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Your suggestion request added!"),
+            ),
+          );
+        },
+      ).catchError(
+        (error) => ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Something went wrong!"),
+          ),
+        ),
+      );
     }
 
     return SafeArea(
@@ -47,34 +62,34 @@ class _SendSuggestionsPageState extends State<SendSuggestionsPage> {
                     child: Image.asset('assets/icons/icon_close.png')),
               ],
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Text('Title', style: kTextStylAddRecipe),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             TextField(
                 onChanged: (value) => title = value,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: kColorPurple)),
                   hintText: 'Insert title here',
                   hintStyle: kTextStyleTextField,
                 ),
                 keyboardType: TextInputType.text),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text('Argument', style: kTextStylAddRecipe),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             TextField(
                 onChanged: (value) => argument = value,
                 maxLines: 12,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: kColorPurple)),
                   hintText: 'Insert argument here',
                   hintStyle: kTextStyleTextField,
                 ),
                 keyboardType: TextInputType.text),
-            SizedBox(height: 220),
+            const SizedBox(height: 220),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -86,13 +101,14 @@ class _SendSuggestionsPageState extends State<SendSuggestionsPage> {
                       width: 206,
                       height: 54,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          borderRadius: const BorderRadius.all(
+                              const Radius.circular(10.0)),
                           color: kColorPurple),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           Text('Send', style: kTextStylAddButton),
-                          Icon(
+                          const Icon(
                             Icons.arrow_forward,
                             color: Colors.white,
                           )

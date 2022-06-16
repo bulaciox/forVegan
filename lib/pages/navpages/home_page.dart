@@ -37,6 +37,17 @@ class _HomePageState extends State<HomePage> {
       });
     });
 
+    handleAll() {
+      CollectionReference recipes =
+          FirebaseFirestore.instance.collection('Recipes');
+      recipes.get().then((QuerySnapshot querySnapshot) {
+        final allData = querySnapshot.docs.map((doc) => doc.data());
+        setState(() {
+          filterRecipes = allData.toList();
+        });
+      });
+    }
+
     handleCat(value) {
       CollectionReference recipes =
           FirebaseFirestore.instance.collection('Recipes');
@@ -123,6 +134,28 @@ class _HomePageState extends State<HomePage> {
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: <Widget>[
+                      GestureDetector(
+                        child: GestureDetector(
+                            onTap: () => handleAll(),
+                            child: Card(
+                              color: selected ? Colors.red : Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8.0, horizontal: 12.0),
+                                child: Center(
+                                  child: Text(
+                                    'All categories',
+                                    style: const TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14,
+                                      color: Color.fromRGBO(122, 122, 199, 1.0),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )),
+                      ),
                       ...allRecipes
                           .map<Widget>(
                             (cat) => GestureDetector(

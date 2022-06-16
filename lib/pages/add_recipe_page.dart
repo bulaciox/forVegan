@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:for_vegan/konstants.dart';
+import 'package:for_vegan/pages/navpages/main_page.dart';
 
 class AddRecipePage extends StatefulWidget {
   const AddRecipePage({Key? key}) : super(key: key);
@@ -52,17 +53,26 @@ class _AddRecipePageState extends State<AddRecipePage> {
     /*
     Future<void> addRecipes(String title, String categories, String image,
         String description, String ingredients, String time) {
-      return recipes
-          .add({
-            'categories': categories,
-            'description': description,
-            'image': image,
-            'ingredients': ingredients,
-            'time': time,
-            'title': title
-          })
-          .then((value) => Navigator.pushNamed(context, '/'))
-          .catchError((error) => print("Failed to add user: $error"));
+      return recipes.add({
+        'categories': categories,
+        'description': description,
+        'image': image,
+        'ingredients': ingredients,
+        'time': time,
+        'title': title
+      }).then(
+        (value) {
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Your recipes adding soon!"),
+            ),
+          );
+        },
+      ).catchError(
+          (error) => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text("Something went wrong!"),
+              )));
     }
     */
 

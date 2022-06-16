@@ -97,7 +97,9 @@ class _RecipePageState extends State<RecipePage> {
                 ]),
               },
             ).then((value) {
-              print('updated');
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("Added to the favourite"),
+              ));
               setState(() {
                 fav = true;
               });
@@ -112,16 +114,20 @@ class _RecipePageState extends State<RecipePage> {
           FirebaseFirestore.instance.collection('RecipsReport');
       reports
           .add({'Error message': reportText, 'Recipe_Id': widget.id.toString()})
-          .then((value) => {
-                const SnackBar(
-                  content: Text('Sucessfully accepted !'),
-                ),
-              })
+          .then(
+            (value) => {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("Sucessfully accepted !"),
+              )),
+              reportText = ''
+            },
+          )
           // ignore: invalid_return_type_for_catch_error
-          .catchError((error) => const SnackBar(
-                content: Text("Something went wrong!"),
-              ));
-      ;
+          .catchError((error) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text("Something went wrong!"),
+            ));
+          });
     }
 
     var shareText =

@@ -23,30 +23,52 @@ class _RegisterPageState extends State<RegisterPage> {
     signup(fullName, email, password) async {
       CollectionReference users =
           FirebaseFirestore.instance.collection('Users');
+      User? user;
       try {
-        _auth.createUserWithEmailAndPassword(email: email, password: password);
-        users
-            .add({
-              'Full name': fullName,
-              'Email': email,
-              "Favorite_Recipes": favoriteRecipes
-            })
-            .then((value) => {
-                  const SnackBar(
-                    content: Text('Sucessfully Signup !'),
-                  ),
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginPage()))
-                })
-            .catchError((error) => const SnackBar(
-                  content: Text("Something went wrong!"),
-                ));
-      } catch (e) {
-        const SnackBar(
-          content: Text("Something went wrong!"),
+        UserCredential userCredential =
+            await _auth.createUserWithEmailAndPassword(
+          email: email,
+          password: password,
         );
+        user = userCredential.user;
+        await user!.updateProfile(displayName: fullName);
+        user = _auth.currentUser;
+        users.add({
+          'Full name': fullName,
+          'Email': email,
+          "Favorite_Recipes": favoriteRecipes
+        }).then((value) => {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text("Sucessfully Signup !"),
+              )),
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()))
+            });
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("The password provided is too weak."),
+            backgroundColor: Colors.red,
+          ));
+          setState(() {
+            password = "";
+          });
+        } else if (e.code == 'email-already-in-use') {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("The account already exists for that email."),
+            backgroundColor: Colors.red,
+          ));
+          setState(() {
+            password = "";
+          });
+        }
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Something went wrong!"),
+        ));
+        setState(() {
+          password = "";
+        });
       }
     }
 
