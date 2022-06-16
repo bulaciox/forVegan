@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 child: Card(
-                                  //elevation: 16, //sombreado
+                                  elevation: 3,
                                   clipBehavior: Clip.antiAlias,
                                   child: Column(
                                     crossAxisAlignment:
@@ -138,6 +138,7 @@ class _HomePageState extends State<HomePage> {
                         child: GestureDetector(
                             onTap: () => handleAll(),
                             child: Card(
+                              elevation: 3,
                               color: selected ? Colors.red : Colors.white,
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
@@ -161,6 +162,7 @@ class _HomePageState extends State<HomePage> {
                             (cat) => GestureDetector(
                                 onTap: () => handleCat(cat['categories']),
                                 child: Card(
+                                  elevation: 3,
                                   color: selected ? Colors.red : Colors.white,
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -201,7 +203,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 child: Card(
-                                  //elevation: 16, //sombreado
+                                  elevation: 3,
                                   clipBehavior: Clip.antiAlias,
                                   child: Column(
                                     crossAxisAlignment:
@@ -241,52 +243,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-}
-
-Widget _cartaCategoria(String text) {
-  return Card(
-    color: Colors.white,
-    child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-      child: Center(
-        child: Text(
-          text,
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w600,
-            fontSize: 12,
-            color: Color.fromRGBO(122, 122, 199, 1.0),
-          ),
-        ),
-      ),
-    ),
-  );
-}
-
-Widget _cartaTrendy(BuildContext context) {
-  return GestureDetector(
-    child: Card(
-      //elevation: 16, //sombreado
-      clipBehavior: Clip.antiAlias,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 280,
-            height: 180,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/fav_img1.png'),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Text('French toast', style: kTextStyleCardText),
-          )
-        ],
-      ),
-    ),
-  );
 }

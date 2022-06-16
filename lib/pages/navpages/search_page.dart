@@ -83,7 +83,7 @@ class _SearchPageState extends State<SearchPage> {
                                     ),
                                   ),
                                   child: Card(
-                                    //elevation: 16, //sombreado
+                                    elevation: 3,
                                     margin: EdgeInsets.symmetric(vertical: 10),
                                     clipBehavior: Clip.antiAlias,
                                     child: Column(
@@ -124,7 +124,7 @@ class _SearchPageState extends State<SearchPage> {
                                     ),
                                   ),
                                   child: Card(
-                                    //elevation: 16, //sombreado
+                                    elevation: 3,
                                     margin: EdgeInsets.symmetric(vertical: 10),
                                     clipBehavior: Clip.antiAlias,
                                     child: Column(

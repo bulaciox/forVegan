@@ -95,7 +95,7 @@ class _FavPageState extends State<FavPage> {
                                     child: Card(
                                       margin: const EdgeInsets.symmetric(
                                           vertical: 10),
-                                      elevation: 16, //sombreado
+                                      elevation: 3, //sombreado
                                       clipBehavior: Clip.antiAlias,
                                       child: Column(
                                         crossAxisAlignment:
