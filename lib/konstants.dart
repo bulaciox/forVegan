@@ -36,6 +36,11 @@ final kTextStyleCardText = TextStyle(
   fontSize: 14,
 );
 
+final kTextStyleSearchItem = TextStyle(
+  fontFamily: 'Poppins',
+  fontSize: 16,
+);
+
 final kTextStylAddRecipe = TextStyle(
   fontFamily: 'Poppins',
   fontSize: 16,

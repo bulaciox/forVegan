@@ -111,7 +111,7 @@ class _RecipePageState extends State<RecipePage> {
 
     sendReport(value) {
       CollectionReference reports =
-          FirebaseFirestore.instance.collection('RecipsReport');
+          FirebaseFirestore.instance.collection('recipeReports');
       reports
           .add({
             'Error message': reportText,
