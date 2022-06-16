@@ -1,6 +1,7 @@
 // ignore_for_file: invalid_return_type_for_catch_error
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:for_vegan/konstants.dart';
 import 'package:for_vegan/pages/navpages/main_page.dart';
@@ -16,12 +17,18 @@ class _SendSuggestionsPageState extends State<SendSuggestionsPage> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   late String title;
   late String argument;
+  final _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     CollectionReference suggestions =
         FirebaseFirestore.instance.collection('userSuggestions');
     void addSugges(String title, String argument) async {
-      return suggestions.add({'title': title, 'argument': argument}).then(
+      return suggestions.add({
+        'title': title,
+        'argument': argument,
+        'User_email': _auth.currentUser?.email
+      }).then(
         (value) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(

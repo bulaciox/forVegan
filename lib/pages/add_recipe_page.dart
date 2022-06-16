@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:for_vegan/konstants.dart';
 
@@ -23,6 +24,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
   Widget build(BuildContext context) {
     CollectionReference recipes =
         FirebaseFirestore.instance.collection('userRecipes');
+    final _auth = FirebaseAuth.instance;
 
     Future<void> addRecipes(
         {String? title,
@@ -37,7 +39,8 @@ class _AddRecipePageState extends State<AddRecipePage> {
         'image': image,
         'ingredients': ingredients,
         'time': time,
-        'title': title
+        'title': title,
+        'User_email': _auth.currentUser?.email
       }).then(
         (value) {
           Navigator.pop(context);

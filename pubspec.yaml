@@ -42,12 +42,12 @@ dependencies:
   google_sign_in: ^5.3.3
   firebase_auth: ^3.3.19
   share_plus: ^4.0.8
+  flutter_html: ^2.2.1
   http: ^0.13.4
   path_provider: ^2.0.11
   image_picker: ^0.8.5+3
   file_picker: ^4.6.1
 
-  flutter_html: ^2.2.1
 
 dev_dependencies:
   flutter_test:
