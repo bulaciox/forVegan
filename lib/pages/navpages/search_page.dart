@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:for_vegan/pages/recipe_page.dart';
@@ -5,6 +7,91 @@ import 'package:for_vegan/pages/recipe_page.dart';
 import '../../konstants.dart';
 
 class SearchPage extends StatefulWidget {
+  const SearchPage({Key? key}) : super(key: key);
+
+  @override
+  State<SearchPage> createState() => _SearchPageState();
+}
+
+class _SearchPageState extends State<SearchPage> {
+  String name = "";
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+            backgroundColor: Colors.white,
+            title: Card(
+              child: TextField(
+                decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.search), hintText: 'Search...'),
+                onChanged: (val) {
+                  setState(() {
+                    name = val;
+                  });
+                },
+              ),
+            )),
+        body: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance.collection('Recipes').snapshots(),
+          builder: (context, snapshots) {
+            return (snapshots.connectionState == ConnectionState.waiting)
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : ListView.builder(
+                    itemCount: snapshots.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      var data = snapshots.data!.docs[index].data()
+                          as Map<String, dynamic>;
+
+                      if (name.isEmpty) {
+                        return ListTile(
+                            onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        RecipePage(id: data['id']),
+                                  ),
+                                ),
+                            title: Text(
+                              data['title'],
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: kTextStyleSearchItem,
+                            ),
+                            leading: Image(image: NetworkImage(data['image'])));
+                      }
+                      if (data['title']
+                          .toString()
+                          .toLowerCase()
+                          .contains(name.toLowerCase())) {
+                        return ListTile(
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RecipePage(id: data['id']),
+                            ),
+                          ),
+                          title: Text(
+                            data['title'],
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: kTextStyleSearchItem,
+                          ),
+                          leading: Image(
+                              image: NetworkImage(
+                            data['image'],
+                          )),
+                        );
+                      }
+                      return Container();
+                    });
+          },
+        ));
+  }
+}
+
+/*class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
 
   @override
@@ -124,3 +211,6 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 }
+
+
+ */
