@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Email adress',
+                      'Email address',
                       style: kTextStylAddRecipe,
                     ),
                     const SizedBox(height: 5),

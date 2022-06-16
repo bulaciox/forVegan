@@ -7,6 +7,7 @@ import 'package:for_vegan/konstants.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 // import 'package:share_plus/share_plus.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class RecipePage extends StatefulWidget {
   final int id;
@@ -44,8 +45,12 @@ class _RecipePageState extends State<RecipePage> {
         children: cells
             .map((cell) => Padding(
                   padding: const EdgeInsets.all(12.0),
-                  child: Center(
-                    child: Text(cell),
+                  child: Text(
+                    cell,
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 16.0,
+                    ),
                   ),
                 ))
             .toList());
@@ -244,36 +249,46 @@ class _RecipePageState extends State<RecipePage> {
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(recTitle,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                            style: TextStyle(
-                                fontSize: 10, fontWeight: FontWeight.bold)),
-                        Row(
-                          children: <Widget>[
-                            GestureDetector(
-                              onTap: (() async => await Share.share(shareText)),
-                              child: Image.asset('assets/icons/icon_share.png'),
+                    Container(
+                      width: double.infinity,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Expanded(
+                            //height: 15,
+
+                            child: FittedBox(
+                              child: Text(recTitle,
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold)),
                             ),
-                            SizedBox(width: 7),
-                            GestureDetector(
-                              onTap: (() async => await addTofav()),
-                              child: !fav
-                                  ? Image.asset(
-                                      'assets/icons/icon_like.png',
-                                      scale: 1,
-                                    )
-                                  : Image.asset(
-                                      'assets/icons/icon_like2.png',
-                                      scale: 0.8,
-                                    ),
-                            )
-                          ],
-                        )
-                      ],
+                          ),
+                          SizedBox(width: 15),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              GestureDetector(
+                                onTap: (() async =>
+                                    await Share.share(shareText)),
+                                child:
+                                    Image.asset('assets/icons/icon_share.png'),
+                              ),
+                              SizedBox(width: 7),
+                              GestureDetector(
+                                onTap: (() async => await addTofav()),
+                                child: !fav
+                                    ? Image.asset(
+                                        'assets/icons/icon_like.png',
+                                      )
+                                    : Image.asset(
+                                        'assets/icons/icon_like2.png',
+                                      ),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                     Row(
                       children: <Widget>[
@@ -337,12 +352,21 @@ class _RecipePageState extends State<RecipePage> {
                       visible: switchValue == 0 ? isVisible : !isVisible,
                       child: Column(
                         children: <Widget>[
-                          Text(
+                          /*Text(
                             recIns,
                             style: TextStyle(
                               fontSize: 18,
                             ),
-                          )
+                          )*/
+                          Html(
+                            data: recIns,
+                            style: {
+                              'body': Style(
+                                fontFamily: 'Poppins',
+                                fontSize: FontSize.larger,
+                              ),
+                            },
+                          ),
                         ],
                       ),
                     )
