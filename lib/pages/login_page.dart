@@ -1,3 +1,5 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -19,20 +21,47 @@ class _LoginPageState extends State<LoginPage> {
   var password = '';
   @override
   Widget build(BuildContext context) {
-    login(email, password) async {
-      try {
-        _auth.signInWithEmailAndPassword(email: email, password: password);
-        const AlertDialog(
-          content: Text('Sucessfully Login !'),
-        );
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const MainPage()),
-            (route) => false);
-      } catch (e) {
-        const AlertDialog(
-          content: Text("Something went wrong!"),
-        );
+    void login(email, password) async {
+      User? user;
+      if (email == '' || password == "") {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Please fill all the fields !"),
+          backgroundColor: Colors.red,
+        ));
+      } else {
+        try {
+          UserCredential userCredential =
+              await _auth.signInWithEmailAndPassword(
+            email: email,
+            password: password,
+          );
+          user = userCredential.user;
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Sucessfully Login !"),
+          ));
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const MainPage()),
+              (route) => false);
+        } on FirebaseAuthException catch (e) {
+          if (e.code == 'user-not-found') {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text("No user found for this email."),
+              backgroundColor: Colors.red,
+            ));
+            setState(() {
+              password = "";
+            });
+          } else if (e.code == 'wrong-password' || e.code == 'invalid-email') {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text("Wrong email or password provided."),
+              backgroundColor: Colors.red,
+            ));
+            setState(() {
+              password = "";
+            });
+          }
+        }
       }
     }
 
@@ -89,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         login(email, password);
                       },
                       child: Container(

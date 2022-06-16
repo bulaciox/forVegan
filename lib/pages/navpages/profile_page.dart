@@ -13,9 +13,18 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final _auth = FirebaseAuth.instance;
+  var email = '';
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      email = (_auth.currentUser?.email)!;
+    });
+    setState(() {});
     return SafeArea(
       child: Container(
         margin: const EdgeInsets.all(15.0),
@@ -28,8 +37,8 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             Image.asset("assets/images/avatar_user.png"),
             const SizedBox(height: 10.0),
-            const Text(
-              'Marta Salmeron Blas',
+            Text(
+              email,
               style: TextStyle(
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.w700,
@@ -101,6 +110,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                 MaterialPageRoute(
                                     builder: (context) => const WelcomePage()),
                                 (route) => false)),
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text("Sucessfully logout!"),
+                        )),
                       },
                       child: Row(children: <Widget>[
                         const Icon(Icons.logout),

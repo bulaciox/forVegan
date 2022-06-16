@@ -11,19 +11,21 @@ class AddPage extends StatelessWidget {
     return SafeArea(
       child: Container(
         color: kColorGrey,
-        margin: EdgeInsets.all(15.0),
+        margin: const EdgeInsets.all(15.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Text(
-              'Add',
-              style: kTextStyleTitle,
-            ),
+            // Text(
+            //   'Add',
+            //   style: kTextStyleTitle,
+            // ),
             Expanded(
               child: GestureDetector(
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AddRecipePage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AddRecipePage()));
                 },
                 child: Card(
                   color: kColorPurple,
@@ -39,7 +41,7 @@ class AddPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Expanded(
@@ -48,7 +50,7 @@ class AddPage extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => SendSuggestionsPage()));
+                            builder: (context) => const SendSuggestionsPage()));
                   },
                   child: Card(
                       color: kColorPurple,

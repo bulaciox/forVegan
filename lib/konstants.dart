@@ -33,7 +33,7 @@ final kTextStyleAdd = TextStyle(
 
 final kTextStyleCardText = TextStyle(
   fontFamily: 'Poppins',
-  fontSize: 16,
+  fontSize: 14,
 );
 
 final kTextStylAddRecipe = TextStyle(
