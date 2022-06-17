@@ -21,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   var allRecipes = [];
   var filterRecipes = [];
+  var allCat = [];
   bool selected = false;
   final time = DateTime.now();
 
@@ -49,7 +50,17 @@ class _HomePageState extends State<HomePage> {
             filterRecipes.isEmpty ? allData.toList() : filterRecipes;
       });
     });
-
+    CollectionReference categories =
+        FirebaseFirestore.instance.collection('categories');
+    categories
+        .doc('fzuB5KgK53umHKKPCQR8')
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      var allData = documentSnapshot.get('title');
+      setState(() {
+        allCat = allData.toList();
+      });
+    });
     handleAll() {
       CollectionReference recipes =
           FirebaseFirestore.instance.collection('recipes');
@@ -169,11 +180,10 @@ class _HomePageState extends State<HomePage> {
                               ),
                             )),
                       ),
-                      ...allRecipes
+                      ...allCat
                           .map<Widget>(
-                            (cat) => GestureDetector(
-                                onTap: () =>
-                                    handleCat(cat['categories'].toString()),
+                            (cate) => GestureDetector(
+                                onTap: () => handleCat(cate),
                                 child: Card(
                                   elevation: 3,
                                   color: selected ? Colors.red : Colors.white,
@@ -182,10 +192,7 @@ class _HomePageState extends State<HomePage> {
                                         vertical: 8.0, horizontal: 12.0),
                                     child: Center(
                                       child: Text(
-                                        cat['categories']
-                                            .toString()
-                                            .replaceAll("[", '')
-                                            .replaceAll("]", ''),
+                                        cate,
                                         style: const TextStyle(
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w600,
