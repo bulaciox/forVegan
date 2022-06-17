@@ -44,15 +44,15 @@ class _MainPageState extends State<MainPage> {
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
-              label: 'Home', icon: Icon(Icons.home_filled, size: 27)),
+              label: 'Home', icon: Icon(Icons.home_filled, size: 30)),
           BottomNavigationBarItem(
-              label: 'Search', icon: Icon(Icons.search, size: 27)),
+              label: 'Search', icon: Icon(Icons.search, size: 30)),
           BottomNavigationBarItem(
-              label: 'Add', icon: Icon(Icons.add, size: 27)),
+              label: 'Add', icon: Icon(Icons.add, size: 30)),
           BottomNavigationBarItem(
-              label: 'Fav', icon: Icon(Icons.favorite_border, size: 27)),
+              label: 'Fav', icon: Icon(Icons.favorite_border, size: 30)),
           BottomNavigationBarItem(
-              label: 'Profile', icon: Icon(Icons.person, size: 27)),
+              label: 'Profile', icon: Icon(Icons.person, size: 30)),
         ],
       ),
     );

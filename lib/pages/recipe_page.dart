@@ -162,8 +162,8 @@ class _RecipePageState extends State<RecipePage> {
                             showModalBottomSheet(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(24),
-                                  topRight: Radius.circular(24),
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
                                 ),
                               ),
                               context: context,
@@ -250,48 +250,92 @@ class _RecipePageState extends State<RecipePage> {
                 color: kColorGrey,
               ),
               child: Padding(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(12),
                 child: Column(
                   children: <Widget>[
                     Container(
                       width: double.infinity,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          Expanded(
-                            //height: 15,
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisSize: MainAxisSize.max,
+                          children: <Widget>[
+                            Expanded(
+                              //height: 15,
 
-                            child: FittedBox(
-                              child: Text(recTitle,
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                            ),
-                          ),
-                          SizedBox(width: 15),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              GestureDetector(
-                                onTap: (() async =>
-                                    await Share.share(shareText)),
-                                child:
-                                    Image.asset('assets/icons/icon_share.png'),
+                              child: FittedBox(
+                                child: Text(recTitle,
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
                               ),
-                              SizedBox(width: 7),
-                              GestureDetector(
-                                onTap: (() async => await addTofav()),
-                                child: !fav
-                                    ? Image.asset(
-                                        'assets/icons/icon_like.png',
-                                      )
-                                    : Image.asset(
-                                        'assets/icons/icon_like2.png',
+                            ),
+                            SizedBox(width: 15),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                GestureDetector(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(24),
+                                          topRight: Radius.circular(24),
+                                        ),
                                       ),
-                              )
-                            ],
-                          )
-                        ],
+                                      context: context,
+                                      builder: (context) => Padding(
+                                        padding: const EdgeInsets.all(17.0),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            ListTile(
+                                                onTap: (() async {
+                                                  await Share.share(shareText);
+                                                  Navigator.of(context)
+                                                      .pop(context);
+                                                }),
+                                                leading:
+                                                    Icon(Icons.text_fields),
+                                                title:
+                                                    Text('Share recipe text')),
+                                            /*ListTile(
+                                                leading:
+                                                    Icon(Icons.description),
+                                                title:
+                                                    Text('Share PDF document')),*/
+                                            ListTile(
+                                                onTap: () {
+                                                  Navigator.of(context)
+                                                      .pop(context);
+                                                },
+                                                leading: Icon(Icons.close),
+                                                title: Text('Cancel')),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Image.asset(
+                                      'assets/icons/icon_share.png'),
+                                ),
+                                SizedBox(width: 7),
+                                GestureDetector(
+                                  onTap: (() async => await addTofav()),
+                                  child: !fav
+                                      ? Image.asset(
+                                          'assets/icons/icon_like.png',
+                                        )
+                                      : Image.asset(
+                                          'assets/icons/icon_like2.png',
+                                        ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
                     Row(
@@ -333,10 +377,10 @@ class _RecipePageState extends State<RecipePage> {
                         });
                       },
                     ),
-                    const SizedBox(height: 15),
                     Visibility(
                       visible: switchValue == 1 ? isVisible : !isVisible,
                       child: Container(
+                        margin: EdgeInsets.only(top: 15.0),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -354,15 +398,14 @@ class _RecipePageState extends State<RecipePage> {
                     SizedBox(height: 15),
                     Visibility(
                       visible: switchValue == 0 ? isVisible : !isVisible,
-                      child: Column(
-                        children: <Widget>[
-                          /*Text(
-                            recIns,
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                          )*/
-                          Html(
+                      child: Container(
+                          padding: EdgeInsets.all(3),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(15.0)),
+                          ),
+                          child: Html(
                             data: recIns,
                             style: {
                               'body': Style(
@@ -370,9 +413,7 @@ class _RecipePageState extends State<RecipePage> {
                                 fontSize: FontSize.larger,
                               ),
                             },
-                          ),
-                        ],
-                      ),
+                          )),
                     )
                   ],
                 ),
