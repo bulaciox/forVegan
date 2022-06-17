@@ -96,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             keyboardType: TextInputType.text),
                       ]),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[

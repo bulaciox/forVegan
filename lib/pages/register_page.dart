@@ -81,50 +81,49 @@ class _RegisterPageState extends State<RegisterPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Text('Register', style: kTextStyleTitle),
+              const Text('Register', style: kTextStyleTitle),
               Column(
                 children: <Widget>[
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
+                        const Text(
                           'Name',
                           style: kTextStylAddRecipe,
                         ),
                         const SizedBox(height: 5),
                         TextField(
                             onChanged: (value) => fullName = value,
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              focusedBorder: const OutlineInputBorder(
-                                  borderSide:
-                                      const BorderSide(color: Colors.black)),
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black)),
                               //hintText: 'Email adress',
                               hintStyle: kTextStyleTextField,
                             ),
                             keyboardType: TextInputType.text),
                       ]),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
+                        const Text(
                           'Email address',
                           style: kTextStylAddRecipe,
                         ),
                         const SizedBox(height: 5),
                         TextField(
                             onChanged: (value) => email = value,
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              focusedBorder: const OutlineInputBorder(
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
                               //hintText: 'Email address',
                               hintStyle: kTextStyleTextField,
                             ),
                             keyboardType: TextInputType.text),
                       ]),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -139,8 +138,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
                               focusedBorder: const OutlineInputBorder(
-                                  borderSide:
-                                      const BorderSide(color: Colors.black)),
+                                  borderSide: BorderSide(color: Colors.black)),
                               //hintText: 'Email address',
                               hintStyle: kTextStyleTextField,
                             ),
@@ -160,7 +158,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         height: 54,
                         decoration: const BoxDecoration(
                             borderRadius:
-                                BorderRadius.all(const Radius.circular(10.0)),
+                                BorderRadius.all(Radius.circular(10.0)),
                             color: Colors.white),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

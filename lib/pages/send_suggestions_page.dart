@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:for_vegan/konstants.dart';
-import 'package:for_vegan/pages/navpages/main_page.dart';
 
 class SendSuggestionsPage extends StatefulWidget {
   const SendSuggestionsPage({Key? key}) : super(key: key);
@@ -58,7 +57,7 @@ class _SendSuggestionsPageState extends State<SendSuggestionsPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(
+                const Text(
                   'Send suggestions',
                   style: kTextStyleTitle,
                 ),
@@ -70,12 +69,12 @@ class _SendSuggestionsPageState extends State<SendSuggestionsPage> {
               ],
             ),
             const SizedBox(height: 12),
-            Text('Title', style: kTextStylAddRecipe),
+            const Text('Title', style: kTextStylAddRecipe),
             const SizedBox(height: 5),
             TextField(
                 onChanged: (value) => title = value,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: kColorPurple)),
                   hintText: 'Insert title here',
@@ -83,13 +82,13 @@ class _SendSuggestionsPageState extends State<SendSuggestionsPage> {
                 ),
                 keyboardType: TextInputType.text),
             const SizedBox(height: 8),
-            Text('Argument', style: kTextStylAddRecipe),
+            const Text('Argument', style: kTextStylAddRecipe),
             const SizedBox(height: 5),
             TextField(
                 onChanged: (value) => argument = value,
                 maxLines: 12,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: kColorPurple)),
                   hintText: 'Insert argument here',
@@ -107,15 +106,14 @@ class _SendSuggestionsPageState extends State<SendSuggestionsPage> {
                     child: Container(
                       width: 206,
                       height: 54,
-                      decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(
-                              const Radius.circular(10.0)),
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
                           color: kColorPurple),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
+                        children: const <Widget>[
                           Text('Send', style: kTextStylAddButton),
-                          const Icon(
+                          Icon(
                             Icons.arrow_forward,
                             color: Colors.white,
                           )

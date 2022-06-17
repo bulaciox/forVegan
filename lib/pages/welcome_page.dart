@@ -27,12 +27,12 @@ class _WelcomePageState extends State<WelcomePage> {
             children: <Widget>[
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
+                children: const <Widget>[
                   Text(
                     "Let’s \nCook",
                     style: kTextStyleTitleWhite,
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
                   Text(
                     'Find best recipes for cooking',
                     style: kTextStyleSubTitleWhite,
@@ -53,15 +53,15 @@ class _WelcomePageState extends State<WelcomePage> {
                       child: Container(
                         width: 206,
                         height: 54,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(10.0)),
+                                BorderRadius.all(Radius.circular(10.0)),
                             color: kColorPurple),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
+                          children: const <Widget>[
                             Text('Start cooking', style: kTextStylAddButton),
-                            const Icon(
+                            Icon(
                               Icons.arrow_forward,
                               color: Colors.white,
                             )

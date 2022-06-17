@@ -15,11 +15,11 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   List pages = [
-    HomePage(),
-    SearchPage(),
-    AddPage(),
-    FavPage(),
-    ProfilePage(),
+    const HomePage(),
+    const SearchPage(),
+    const AddPage(),
+    const FavPage(),
+    const ProfilePage(),
   ];
 
   int currentIndex = 0;
@@ -34,7 +34,7 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       body: pages[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Color.fromRGBO(122, 122, 199, 1.0),
+        selectedItemColor: const Color.fromRGBO(122, 122, 199, 1.0),
         unselectedItemColor: Colors.black,
         showUnselectedLabels: false,
         showSelectedLabels: false,
@@ -42,7 +42,7 @@ class _MainPageState extends State<MainPage> {
         currentIndex: currentIndex,
         onTap: onTap,
         type: BottomNavigationBarType.fixed,
-        items: [
+        items: const [
           BottomNavigationBarItem(
               label: 'Home', icon: Icon(Icons.home_filled, size: 30)),
           BottomNavigationBarItem(

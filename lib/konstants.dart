@@ -1,84 +1,89 @@
 import 'package:flutter/material.dart';
 
-final kTextStyleProfile = TextStyle(
+const kTextStyleProfile = TextStyle(
   fontFamily: 'Poppins',
   fontSize: 14.9,
 );
 
-final kTextStyleTitle = TextStyle(
+const kTextStyleTitle = TextStyle(
   fontFamily: 'Poppins',
   fontWeight: FontWeight.w600,
   fontSize: 20,
 );
 
-final kTextStyleTitleRecipe = TextStyle(
+const kTextStyleTitleRecipe = TextStyle(
   fontFamily: 'Poppins',
   fontWeight: FontWeight.w600,
   fontSize: 20,
 );
 
-final kTextStyleIconDetails = TextStyle(
+const kTextStyleIconDetails = TextStyle(
   fontFamily: 'Poppins',
   fontWeight: FontWeight.w600,
   fontSize: 13,
   color: Color.fromRGBO(94, 94, 94, 1.0),
 );
 
-final kTextStyleAdd = TextStyle(
+const kTextStyleAdd = TextStyle(
   color: Colors.white,
   fontFamily: 'Poppins',
   fontWeight: FontWeight.w600,
   fontSize: 25,
 );
 
-final kTextStyleCardText = TextStyle(
+const kTextStyleCardText = TextStyle(
   fontFamily: 'Poppins',
   fontSize: 14,
 );
 
-final kTextStyleSearchItem = TextStyle(
+const kTextStyleSearchItem = TextStyle(
   fontFamily: 'Poppins',
   fontSize: 16,
 );
 
-final kTextStylAddRecipe = TextStyle(
+const kTextStylAddRecipe = TextStyle(
   fontFamily: 'Poppins',
   fontSize: 16,
   fontWeight: FontWeight.w600,
 );
 
-final kTextStylAddButton = TextStyle(
+const kTextStylAddButton = TextStyle(
   fontFamily: 'Poppins',
   fontSize: 16,
   fontWeight: FontWeight.w600,
   color: Colors.white,
 );
 
-final kTextStylAddButtonPurple = TextStyle(
+const kTextStylAddButtonPurple = TextStyle(
   fontFamily: 'Poppins',
   fontSize: 16,
   fontWeight: FontWeight.w600,
   color: kColorPurple,
 );
 
-final kTextStyleTextField = TextStyle(
+const kTextStyleTextField = TextStyle(
   fontFamily: 'Poppins',
   fontSize: 14,
 );
 
-final kTextStyleTitleWhite = TextStyle(
+const kTextStyleTitleWhite = TextStyle(
   fontFamily: 'Poppins',
   fontSize: 56,
   fontWeight: FontWeight.w600,
   color: Colors.white,
 );
 
-final kTextStyleSubTitleWhite = TextStyle(
+const kTextStyleSubTitleWhite = TextStyle(
   fontFamily: 'Poppins',
   fontSize: 16,
   color: Colors.white,
 );
 
-final kColorGrey = Color.fromRGBO(243, 245, 246, 1.0);
+const kTextStyleSeatchPage = TextStyle(
+  fontFamily: 'Poppins',
+  fontSize: 16,
+);
 
-final kColorPurple = Color.fromRGBO(122, 122, 199, 1.0);
+const kColorGrey = Color.fromRGBO(243, 245, 246, 1.0);
+
+const kColorPurple = Color.fromRGBO(122, 122, 199, 1.0);

@@ -28,7 +28,7 @@ class _FavPageState extends State<FavPage> {
     favPage() {
       _auth.authStateChanges().listen((User? user) {
         if (user == null) {
-          print(user?.uid);
+          //print(user?.uid);
         } else {
           CollectionReference users =
               FirebaseFirestore.instance.collection('Users');
@@ -76,7 +76,7 @@ class _FavPageState extends State<FavPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('Favourites', style: kTextStyleTitle),
+            const Text('Favourites', style: kTextStyleTitle),
             const SizedBox(height: 9),
             Expanded(
                 child: allRecipes.isEmpty
@@ -132,58 +132,6 @@ class _FavPageState extends State<FavPage> {
                               .toList()
                         ],
                       )),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _cartaFavorito1() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Card(
-        elevation: 16, //sombreado
-        clipBehavior: Clip.antiAlias,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Ink.image(
-              height: 120,
-              image: const AssetImage('assets/images/fav_img1.png'),
-              fit: BoxFit.cover,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Text('French toast', style: kTextStyleCardText),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _cartaFavorito2() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Card(
-        elevation: 16, //sombreado
-        clipBehavior: Clip.antiAlias,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              height: 120,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: const AssetImage('assets/images/fav_img1.png'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Text('French toast', style: kTextStyleCardText),
-            )
           ],
         ),
       ),
