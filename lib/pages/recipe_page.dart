@@ -336,7 +336,7 @@ class _RecipePageState extends State<RecipePage> {
                       SizedBox(width: 25),
                       Icon(Icons.local_fire_department_rounded),
                       SizedBox(width: 5),
-                      Text('244 calories', style: kTextStyleIconDetails),
+                      Text('? calories', style: kTextStyleIconDetails),
                       SizedBox(width: 15),
                       Icon(Icons.timer),
                       SizedBox(width: 5),
