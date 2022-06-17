@@ -76,44 +76,49 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               Text('Login', style: kTextStyleTitle),
               Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'Email address',
-                      style: kTextStylAddRecipe,
-                    ),
-                    const SizedBox(height: 5),
-                    TextField(
-                        onChanged: (value) => email = value,
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
-                          focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black)),
-                          //hintText: 'Email adress',
-                          hintStyle: kTextStyleTextField,
+                children: <Widget>[
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'Email address',
+                          style: kTextStylAddRecipe,
                         ),
-                        keyboardType: TextInputType.text),
-                  ]),
-              Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'Password',
-                      style: kTextStylAddRecipe,
-                    ),
-                    const SizedBox(height: 5),
-                    TextField(
-                        obscureText: true,
-                        onChanged: (value) => password = value,
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
-                          focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black)),
-                          //hintText: 'Password',
-                          hintStyle: kTextStyleTextField,
+                        const SizedBox(height: 5),
+                        TextField(
+                            onChanged: (value) => email = value,
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black)),
+                              //hintText: 'Email adress',
+                              hintStyle: kTextStyleTextField,
+                            ),
+                            keyboardType: TextInputType.text),
+                      ]),
+                  SizedBox(height: 30),
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'Password',
+                          style: kTextStylAddRecipe,
                         ),
-                        keyboardType: TextInputType.text),
-                  ]),
+                        const SizedBox(height: 5),
+                        TextField(
+                            obscureText: true,
+                            onChanged: (value) => password = value,
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black)),
+                              //hintText: 'Password',
+                              hintStyle: kTextStyleTextField,
+                            ),
+                            keyboardType: TextInputType.text),
+                      ]),
+                ],
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
