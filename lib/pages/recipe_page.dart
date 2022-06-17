@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:for_vegan/konstants.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-// import 'package:share_plus/share_plus.dart';
-import 'package:flutter_html/flutter_html.dart';
 
 class RecipePage extends StatefulWidget {
   final int id;
@@ -25,7 +23,7 @@ class _RecipePageState extends State<RecipePage> {
   var recTime = '';
   var recImg = '';
   List recIng = [];
-  var recIns = '';
+  List recSteps = [];
   var reportText = '';
   final _auth = FirebaseAuth.instance;
   var finalData = Object();
@@ -55,28 +53,31 @@ class _RecipePageState extends State<RecipePage> {
                 ))
             .toList());
     CollectionReference recipes =
-        FirebaseFirestore.instance.collection('Recipes');
-    recipes
-        .doc(widget.id.toString())
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      final allData = documentSnapshot;
-      // print(finalData);
-      setState(() {
-        finalData = (allData.data())!;
-        recTitle = allData.get('title');
-        recId = allData.get('id').toString();
-        recTime = allData.get('time');
-        recImg = allData.get('image');
-        recIng = allData.get('ingredients');
-        recIns = allData.get('instructions');
+        FirebaseFirestore.instance.collection('recipes');
+    try {
+      recipes
+          .doc(widget.id.toString())
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        final allData = documentSnapshot;
+        setState(() {
+          finalData = (allData.data())!;
+          recTitle = allData.get('title').toString();
+          recId = allData.get('id').toString();
+          recTime = allData.get('time').toString();
+          recImg = allData.get('image').toString();
+          recIng = allData.get('ingredients');
+          recSteps = allData.get('steps');
+        });
       });
-    });
+    } catch (e) {
+      print(e);
+    }
 
     addTofav() {
       _auth.authStateChanges().listen((User? user) {
         if (user == null) {
-          print(user?.uid);
+          // print(user?.uid);
         } else {
           CollectionReference users =
               FirebaseFirestore.instance.collection('Users');
@@ -135,13 +136,11 @@ class _RecipePageState extends State<RecipePage> {
     }
 
     var shareText =
-        "Recipes Name: $recTitle \nRecipes Time: $recTime min \nRecipes Ingredients: $recIng \nRecipes Instructions: $recIns";
-
+        "Recipes Name: $recTitle \nRecipes Time: $recTime min \nRecipes Ingredients: $recIng \nRecipes Instructions: $recSteps";
     return Scaffold(
-      backgroundColor: kColorGrey,
       body: SingleChildScrollView(
         child: Stack(
-          children: <Widget>[
+          children: [
             Container(
               width: double.infinity,
               height: size.height * 0.4,
@@ -151,12 +150,12 @@ class _RecipePageState extends State<RecipePage> {
               ),
               child: SafeArea(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10.0, vertical: 5.0),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
+                    children: [
                       GestureDetector(
                           onTap: () {
                             showModalBottomSheet(
@@ -247,102 +246,91 @@ class _RecipePageState extends State<RecipePage> {
               //color: Colors.red,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
-                color: kColorGrey,
+                color: Colors.white,
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      width: double.infinity,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          Expanded(
-                            //height: 15,
-
-                            child: FittedBox(
-                              child: Text(recTitle,
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                            ),
-                          ),
-                          SizedBox(width: 15),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              GestureDetector(
-                                onTap: (() async =>
-                                    await Share.share(shareText)),
-                                child:
-                                    Image.asset('assets/icons/icon_share.png'),
-                              ),
-                              SizedBox(width: 7),
-                              GestureDetector(
-                                onTap: (() async => await addTofav()),
-                                child: !fav
-                                    ? Image.asset(
-                                        'assets/icons/icon_like.png',
-                                      )
-                                    : Image.asset(
-                                        'assets/icons/icon_like2.png',
-                                      ),
-                              )
-                            ],
-                          )
-                        ],
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(recTitle,
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      GestureDetector(
+                        onTap: (() async => await Share.share(shareText)),
+                        child: Image.asset('assets/icons/icon_share.png'),
                       ),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Icon(Icons.local_fire_department_rounded),
-                        SizedBox(width: 5),
-                        Text('244 calories', style: kTextStyleIconDetails),
-                        SizedBox(width: 15),
-                        Icon(Icons.timer),
-                        SizedBox(width: 5),
-                        Text('$recTime min', style: kTextStyleIconDetails)
-                      ],
-                    ),
-                    SizedBox(height: 20),
-                    ToggleSwitch(
-                      minWidth: 162.0,
-                      minHeight: 48.0,
-                      cornerRadius: 90.0,
-                      activeBgColors: const [
-                        [Colors.white],
-                        const [Colors.white]
-                      ],
-                      customTextStyles: const [
-                        TextStyle(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 13,
-                        )
-                      ],
-                      activeFgColor: Colors.black,
-                      inactiveBgColor: Color.fromRGBO(227, 232, 235, 1.0),
-                      inactiveFgColor: Color.fromRGBO(94, 94, 94, 1.0),
-                      initialLabelIndex: switchValue,
-                      labels: const ["LET\'COOK", 'INGREDIENTS'],
-                      radiusStyle: true,
-                      onToggle: (index) {
-                        setState(() {
-                          switchValue = index!;
-                        });
-                      },
-                    ),
-                    const SizedBox(height: 15),
-                    Visibility(
-                      visible: switchValue == 1 ? isVisible : !isVisible,
+                      // SizedBox(width: 7),
+                      GestureDetector(
+                        onTap: (() async => await addTofav()),
+                        child: !fav
+                            ? Image.asset(
+                                'assets/icons/icon_like.png',
+                              )
+                            : Image.asset(
+                                'assets/icons/icon_like2.png',
+                              ),
+                      )
+                    ],
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      SizedBox(width: 25),
+                      Icon(Icons.local_fire_department_rounded),
+                      SizedBox(width: 5),
+                      Text('244 calories', style: kTextStyleIconDetails),
+                      SizedBox(width: 15),
+                      Icon(Icons.timer),
+                      SizedBox(width: 5),
+                      Text('$recTime min', style: kTextStyleIconDetails)
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  ToggleSwitch(
+                    minWidth: 162.0,
+                    minHeight: 48.0,
+                    cornerRadius: 90.0,
+                    activeBgColors: const [
+                      [Colors.white],
+                      const [Colors.white]
+                    ],
+                    customTextStyles: const [
+                      TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                        fontSize: 13,
+                      )
+                    ],
+                    activeFgColor: Colors.black,
+                    inactiveBgColor: Color.fromARGB(255, 197, 203, 206),
+                    inactiveFgColor: Color.fromRGBO(94, 94, 94, 1.0),
+                    initialLabelIndex: switchValue,
+                    labels: const ["LET\'COOK", 'INGREDIENTS'],
+                    radiusStyle: true,
+                    onToggle: (index) {
+                      setState(() {
+                        switchValue = index!;
+                      });
+                    },
+                  ),
+                  SizedBox(height: 15),
+                  Visibility(
+                    visible: switchValue == 1 ? isVisible : !isVisible,
+                    child: SingleChildScrollView(
                       child: Container(
+                        margin: EdgeInsets.all(20),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(15.0)),
                         ),
                         child: Table(
-                          //border: TableBorder.all(),
+                          border: TableBorder.all(
+                              color: Colors.white,
+                              width: 1,
+                              borderRadius: BorderRadius.circular(20)),
                           children: [
                             ...recIng.map(
                               (ing) => buildRow([ing]),
@@ -351,33 +339,28 @@ class _RecipePageState extends State<RecipePage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 15),
-                    Visibility(
-                      visible: switchValue == 0 ? isVisible : !isVisible,
-                      child: Column(
-                        children: <Widget>[
-                          /*Text(
-                            recIns,
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                          )*/
-                          Html(
-                            data: recIns,
-                            style: {
-                              'body': Style(
-                                fontFamily: 'Poppins',
-                                fontSize: FontSize.larger,
-                              ),
-                            },
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                  ),
+                  Visibility(
+                    visible: switchValue == 0 ? isVisible : !isVisible,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        ...recSteps.map(
+                          (st) => Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                st,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              )),
+                        )
+                      ],
+                    ),
+                  )
+                ],
               ),
-            )
+            ),
           ],
         ),
       ),

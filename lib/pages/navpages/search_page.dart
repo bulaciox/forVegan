@@ -19,23 +19,25 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Colors.white,
-            title: Card(
-              child: TextField(
-                decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.search), hintText: 'Search...'),
-                onChanged: (val) {
-                  setState(() {
-                    name = val;
-                  });
-                },
-              ),
-            )),
+          backgroundColor: Colors.white,
+          title: Card(
+            margin: EdgeInsets.symmetric(vertical: 10),
+            child: TextField(
+              decoration: const InputDecoration(
+                  prefixIcon: Icon(Icons.search), hintText: 'Search...'),
+              onChanged: (val) {
+                setState(() {
+                  name = val;
+                });
+              },
+            ),
+          ),
+        ),
         body: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('Recipes').snapshots(),
+          stream: FirebaseFirestore.instance.collection('recipes').snapshots(),
           builder: (context, snapshots) {
             return (snapshots.connectionState == ConnectionState.waiting)
-                ? Center(
+                ? const Center(
                     child: CircularProgressIndicator(),
                   )
                 : ListView.builder(
@@ -43,9 +45,8 @@ class _SearchPageState extends State<SearchPage> {
                     itemBuilder: (context, index) {
                       var data = snapshots.data!.docs[index].data()
                           as Map<String, dynamic>;
-
                       if (name.isEmpty) {
-                        return ListTile(
+                        return GestureDetector(
                             onTap: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -53,36 +54,77 @@ class _SearchPageState extends State<SearchPage> {
                                         RecipePage(id: data['id']),
                                   ),
                                 ),
-                            title: Text(
-                              data['title'],
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: kTextStyleSearchItem,
-                            ),
-                            leading: Image(image: NetworkImage(data['image'])));
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Card(
+                                //elevation: 16, //sombreado
+                                margin: EdgeInsets.symmetric(vertical: 10),
+                                clipBehavior: Clip.antiAlias,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                        width: 380,
+                                        height: 180,
+                                        child: Image.network(
+                                          data['image'],
+                                          fit: BoxFit.fitWidth,
+                                          height: 150,
+                                        )),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10, horizontal: 5),
+                                      child: Text(data['title'],
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: false,
+                                          style: TextStyle(fontSize: 17)),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ));
                       }
                       if (data['title']
                           .toString()
                           .toLowerCase()
                           .contains(name.toLowerCase())) {
-                        return ListTile(
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => RecipePage(id: data['id']),
-                            ),
-                          ),
-                          title: Text(
-                            data['title'],
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: kTextStyleSearchItem,
-                          ),
-                          leading: Image(
-                              image: NetworkImage(
-                            data['image'],
-                          )),
-                        );
+                        return GestureDetector(
+                            onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        RecipePage(id: data['id']),
+                                  ),
+                                ),
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Card(
+                                //elevation: 16, //sombreado
+                                margin: EdgeInsets.symmetric(vertical: 10),
+                                clipBehavior: Clip.antiAlias,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                        width: 380,
+                                        height: 180,
+                                        child: Image.network(
+                                          data['image'],
+                                          fit: BoxFit.fitWidth,
+                                          height: 150,
+                                        )),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10, horizontal: 5),
+                                      child: Text(data['title'],
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: false,
+                                          style: TextStyle(fontSize: 17)),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ));
                       }
                       return Container();
                     });

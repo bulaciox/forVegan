@@ -2,9 +2,13 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:for_vegan/notificationservice.dart';
 import 'package:for_vegan/pages/recipe_page.dart';
 import '../../konstants.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,18 +22,27 @@ class _HomePageState extends State<HomePage> {
   var allRecipes = [];
   var filterRecipes = [];
   bool selected = false;
+  final time = DateTime.now();
 
   @override
   void initState() {
     super.initState();
+    tz.initializeTimeZones();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (time.hour >= 4 && time.hour <= 11) {
+      NotificationService().showNotification(1, 'Vegan', "It's breakfast time");
+    } else if (time.hour >= 12 && time.hour <= 15) {
+      NotificationService().showNotification(1, 'Vegan', "It's lunch time");
+    } else {
+      NotificationService().showNotification(1, 'Vegan', "It's dinner time");
+    }
     CollectionReference recipes =
-        FirebaseFirestore.instance.collection('Recipes');
+        FirebaseFirestore.instance.collection('recipes');
     recipes.get().then((QuerySnapshot querySnapshot) {
-      final allData = querySnapshot.docs.map((doc) => doc.data());
+      var allData = querySnapshot.docs.map((doc) => doc.data());
       setState(() {
         allRecipes = allData.toList();
         filterRecipes =
@@ -39,7 +52,7 @@ class _HomePageState extends State<HomePage> {
 
     handleAll() {
       CollectionReference recipes =
-          FirebaseFirestore.instance.collection('Recipes');
+          FirebaseFirestore.instance.collection('recipes');
       recipes.get().then((QuerySnapshot querySnapshot) {
         final allData = querySnapshot.docs.map((doc) => doc.data());
         setState(() {
@@ -50,7 +63,7 @@ class _HomePageState extends State<HomePage> {
 
     handleCat(value) {
       CollectionReference recipes =
-          FirebaseFirestore.instance.collection('Recipes');
+          FirebaseFirestore.instance.collection('recipes');
       recipes
           .where('categories', isEqualTo: value)
           .get()
@@ -62,7 +75,6 @@ class _HomePageState extends State<HomePage> {
       });
     }
 
-    // print(filterRecipes);
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -103,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                                           width: 320,
                                           height: 180,
                                           child: Image.network(
-                                            rec['image'],
+                                            rec['image'].toString(),
                                             fit: BoxFit.fill,
                                             height: 190,
                                             width: 330,
@@ -111,7 +123,7 @@ class _HomePageState extends State<HomePage> {
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 10, horizontal: 5),
-                                        child: Text(rec['title'],
+                                        child: Text(rec['title'].toString(),
                                             overflow: TextOverflow.ellipsis,
                                             softWrap: false,
                                             style: TextStyle(fontSize: 17)),
@@ -159,7 +171,8 @@ class _HomePageState extends State<HomePage> {
                       ...allRecipes
                           .map<Widget>(
                             (cat) => GestureDetector(
-                                onTap: () => handleCat(cat['categories']),
+                                onTap: () =>
+                                    handleCat(cat['categories'].toString()),
                                 child: Card(
                                   color: selected ? Colors.red : Colors.white,
                                   child: Padding(
@@ -167,7 +180,10 @@ class _HomePageState extends State<HomePage> {
                                         vertical: 8.0, horizontal: 12.0),
                                     child: Center(
                                       child: Text(
-                                        cat['categories'],
+                                        cat['categories']
+                                            .toString()
+                                            .replaceAll("[", '')
+                                            .replaceAll("]", ''),
                                         style: const TextStyle(
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w600,
@@ -212,7 +228,7 @@ class _HomePageState extends State<HomePage> {
                                           width: 320,
                                           height: 180,
                                           child: Image.network(
-                                            rec['image'],
+                                            rec['image'].toString(),
                                             fit: BoxFit.fill,
                                             height: 190,
                                             width: 330,
@@ -220,7 +236,7 @@ class _HomePageState extends State<HomePage> {
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 10, horizontal: 5),
-                                        child: Text(rec['title'],
+                                        child: Text(rec['title'].toString(),
                                             overflow: TextOverflow.ellipsis,
                                             softWrap: false,
                                             style: TextStyle(fontSize: 17)),
