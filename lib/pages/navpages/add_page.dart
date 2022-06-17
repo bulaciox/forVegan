@@ -8,64 +8,67 @@ class AddPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        color: kColorGrey,
-        margin: const EdgeInsets.all(15.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            // Text(
-            //   'Add',
-            //   style: kTextStyleTitle,
-            // ),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AddRecipePage()));
-                },
-                child: Card(
-                  color: kColorPurple,
-                  child: Stack(
-                    children: <Widget>[
-                      Image.asset('assets/images/add1.png'),
-                      Positioned(
-                          bottom: 32,
-                          right: 10,
-                          child: Text('Add recipe', style: kTextStyleAdd)),
-                    ],
-                  ),
-                ),
+    return Scaffold(
+      backgroundColor: kColorGrey,
+      body: SafeArea(
+        child: Container(
+          margin: const EdgeInsets.all(15.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              const Text(
+                'Add',
+                style: kTextStyleTitle,
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Expanded(
-              child: GestureDetector(
+              Expanded(
+                child: GestureDetector(
                   onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const SendSuggestionsPage()));
+                            builder: (context) => const AddRecipePage()));
                   },
                   child: Card(
-                      color: kColorPurple,
-                      child: Stack(
-                        children: <Widget>[
-                          Image.asset('assets/images/add2.png'),
-                          Positioned(
-                              bottom: 32,
-                              right: 10,
-                              child: Text('Send suggestions',
-                                  style: kTextStyleAdd)),
-                        ],
-                      ))),
-            ),
-          ],
+                    color: kColorPurple,
+                    child: Stack(
+                      children: <Widget>[
+                        Image.asset('assets/images/add1.png'),
+                        const Positioned(
+                            bottom: 32,
+                            right: 10,
+                            child: Text('Add recipe', style: kTextStyleAdd)),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Expanded(
+                child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const SendSuggestionsPage()));
+                    },
+                    child: Card(
+                        color: kColorPurple,
+                        child: Stack(
+                          children: <Widget>[
+                            Image.asset('assets/images/add2.png'),
+                            const Positioned(
+                                bottom: 32,
+                                right: 10,
+                                child: Text('Send suggestions',
+                                    style: kTextStyleAdd)),
+                          ],
+                        ))),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -14,7 +14,7 @@ const kTextStyleTitle = TextStyle(
 const kTextStyleTitleRecipe = TextStyle(
   fontFamily: 'Poppins',
   fontWeight: FontWeight.w600,
-  fontSize: 20,
+  fontSize: 15,
 );
 
 const kTextStyleIconDetails = TextStyle(

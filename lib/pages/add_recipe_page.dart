@@ -68,7 +68,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
+                  const Text(
                     'Add recipe',
                     style: kTextStyleTitle,
                   ),
@@ -79,12 +79,12 @@ class _AddRecipePageState extends State<AddRecipePage> {
                       child: Image.asset('assets/icons/icon_close.png')),
                 ],
               ),
-              SizedBox(height: 2),
-              Text('Title', style: kTextStylAddRecipe),
-              SizedBox(height: 5),
+              const SizedBox(height: 2),
+              const Text('Title', style: kTextStylAddRecipe),
+              const SizedBox(height: 5),
               TextField(
                   controller: titleController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: kColorPurple)),
@@ -92,11 +92,11 @@ class _AddRecipePageState extends State<AddRecipePage> {
                     hintStyle: kTextStyleTextField,
                   ),
                   keyboardType: TextInputType.text),
-              Text('ImageURL', style: kTextStylAddRecipe),
-              SizedBox(height: 5),
+              const Text('ImageURL', style: kTextStylAddRecipe),
+              const SizedBox(height: 5),
               TextField(
                   controller: imageURLController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: kColorPurple)),
@@ -104,7 +104,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
                     hintStyle: kTextStyleTextField,
                   ),
                   keyboardType: TextInputType.text),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -112,14 +112,14 @@ class _AddRecipePageState extends State<AddRecipePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
+                        const Text(
                           'Calories',
                           style: kTextStylAddRecipe,
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         TextField(
                             controller: caloriesController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               border: OutlineInputBorder(),
                               focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(color: kColorPurple)),
@@ -130,19 +130,19 @@ class _AddRecipePageState extends State<AddRecipePage> {
                       ],
                     ),
                   ),
-                  SizedBox(width: 15),
+                  const SizedBox(width: 15),
                   Expanded(
                       child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
+                      const Text(
                         'Time',
                         style: kTextStylAddRecipe,
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       TextField(
                           controller: timeController,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: kColorPurple)),
@@ -154,13 +154,13 @@ class _AddRecipePageState extends State<AddRecipePage> {
                   ))
                 ],
               ),
-              SizedBox(height: 8),
-              Text('Ingredients', style: kTextStylAddRecipe),
-              SizedBox(height: 5),
+              const SizedBox(height: 8),
+              const Text('Ingredients', style: kTextStylAddRecipe),
+              const SizedBox(height: 5),
               TextField(
                   controller: ingredientsController,
                   maxLines: 4,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: kColorPurple)),
@@ -168,13 +168,13 @@ class _AddRecipePageState extends State<AddRecipePage> {
                     hintStyle: kTextStyleTextField,
                   ),
                   keyboardType: TextInputType.text),
-              SizedBox(height: 8),
-              Text('Instructions', style: kTextStylAddRecipe),
-              SizedBox(height: 5),
+              const SizedBox(height: 8),
+              const Text('Instructions', style: kTextStylAddRecipe),
+              const SizedBox(height: 5),
               TextField(
                   maxLines: 4,
                   controller: instructionsController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: kColorPurple)),
@@ -182,7 +182,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
                     hintStyle: kTextStyleTextField,
                   ),
                   keyboardType: TextInputType.text),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -199,13 +199,13 @@ class _AddRecipePageState extends State<AddRecipePage> {
                       child: Container(
                         width: 206,
                         height: 54,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(10.0)),
                             color: kColorPurple),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
+                          children: const <Widget>[
                             Text('Send', style: kTextStylAddButton),
                             Icon(
                               Icons.arrow_forward,

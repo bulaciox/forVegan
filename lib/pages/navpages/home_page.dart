@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:for_vegan/notificationservice.dart';
 import 'package:for_vegan/pages/recipe_page.dart';
 import '../../konstants.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:timezone/timezone.dart' as tz;
+
 import 'package:timezone/data/latest.dart' as tz;
 
 class HomePage extends StatefulWidget {
@@ -87,6 +85,7 @@ class _HomePageState extends State<HomePage> {
     }
 
     return Scaffold(
+      backgroundColor: kColorGrey,
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 30),
@@ -97,6 +96,7 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                SizedBox(height: 10),
                 Text('Trending now', style: kTextStyleTitle),
                 Container(
                   alignment: Alignment.center,
@@ -131,9 +131,10 @@ class _HomePageState extends State<HomePage> {
                                             height: 190,
                                             width: 330,
                                           )),
-                                      Padding(
+                                      Container(
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 10, horizontal: 5),
+                                        width: 330,
                                         child: Text(rec['title'].toString(),
                                             overflow: TextOverflow.ellipsis,
                                             softWrap: false,
@@ -147,7 +148,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 50),
                 Text('Popular categories', style: kTextStyleTitle),
                 SizedBox(height: 2),
                 Container(
@@ -210,7 +211,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 SizedBox(height: 10),
-                Container(
+                SizedBox(
                   height: 238,
                   //color: Colors.red,
                   child: ListView(
@@ -242,9 +243,10 @@ class _HomePageState extends State<HomePage> {
                                             height: 190,
                                             width: 330,
                                           )),
-                                      Padding(
+                                      Container(
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 10, horizontal: 5),
+                                        width: 320,
                                         child: Text(rec['title'].toString(),
                                             overflow: TextOverflow.ellipsis,
                                             softWrap: false,

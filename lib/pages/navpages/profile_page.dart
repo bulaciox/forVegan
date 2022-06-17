@@ -19,115 +19,111 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
   }
 
+  Widget cardProfile(IconData icon, String text) {
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) => SimpleDialog(
+            title: const Text('Not available'),
+            contentPadding: const EdgeInsets.all(20.0),
+            children: <Widget>[
+              const Text('This function will be added in future updates'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Close'),
+                  ),
+                ],
+              )
+            ],
+          ),
+        );
+      },
+      child: Row(children: <Widget>[
+        Icon(icon),
+        const SizedBox(width: 10),
+        Text(text, style: kTextStyleProfile),
+        const Expanded(child: SizedBox()),
+        const Icon(Icons.arrow_forward)
+      ]),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     setState(() {
       email = (_auth.currentUser?.email)!;
     });
     setState(() {});
-    return SafeArea(
-      child: Container(
-        margin: const EdgeInsets.all(15.0),
-        child: Column(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Text('Profile', style: kTextStyleTitle),
-              ],
-            ),
-            Image.asset("assets/images/avatar_user.png"),
-            const SizedBox(height: 10.0),
-            Text(
-              email,
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w700,
-                fontSize: 17.52,
+    return Scaffold(
+      backgroundColor: kColorGrey,
+      body: SafeArea(
+        child: Container(
+          margin: const EdgeInsets.all(15.0),
+          child: Column(
+            children: <Widget>[
+              Row(
+                children: const <Widget>[
+                  Text('Profile', style: kTextStyleTitle),
+                ],
               ),
-            ),
-            const SizedBox(height: 10),
-            Expanded(
-              child: Container(
-                margin: const EdgeInsets.all(7.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Row(children: <Widget>[
-                      const Icon(Icons.person),
-                      const SizedBox(width: 10),
-                      Text('Account preferences', style: kTextStyleProfile),
-                      const Expanded(child: SizedBox()),
-                      const Icon(Icons.arrow_forward)
-                    ]),
-                    Row(children: <Widget>[
-                      const Icon(Icons.language),
-                      const SizedBox(width: 10),
-                      Text('Language', style: kTextStyleProfile),
-                      const Expanded(child: SizedBox()),
-                      const Icon(Icons.arrow_forward)
-                    ]),
-                    Row(children: <Widget>[
-                      const Icon(Icons.star),
-                      const SizedBox(width: 10),
-                      Text('Rate app', style: kTextStyleProfile),
-                      const Expanded(child: SizedBox()),
-                      const Icon(Icons.arrow_forward)
-                    ]),
-                    Row(children: <Widget>[
-                      const Icon(Icons.share),
-                      const SizedBox(width: 10),
-                      Text('Share App', style: kTextStyleProfile),
-                      const Expanded(child: SizedBox()),
-                      const Icon(Icons.arrow_forward)
-                    ]),
-                    Row(children: <Widget>[
-                      const Icon(Icons.receipt),
-                      const SizedBox(width: 10),
-                      Text('Acknowledgements', style: kTextStyleProfile),
-                      const Expanded(child: SizedBox()),
-                      const Expanded(child: SizedBox()),
-                      const Icon(Icons.arrow_forward)
-                    ]),
-                    Row(children: <Widget>[
-                      const Icon(Icons.shield),
-                      const SizedBox(width: 10),
-                      Text('Privacy Police', style: kTextStyleProfile),
-                      const Expanded(child: const SizedBox()),
-                      const Icon(Icons.arrow_forward)
-                    ]),
-                    Row(children: <Widget>[
-                      const Icon(Icons.file_copy_rounded),
-                      const SizedBox(width: 10),
-                      Text('Terms of service', style: kTextStyleProfile),
-                      const Expanded(child: SizedBox()),
-                      const Icon(Icons.arrow_forward)
-                    ]),
-                    GestureDetector(
-                      onTap: () => {
-                        _auth.signOut().then((value) =>
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const WelcomePage()),
-                                (route) => false)),
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(
-                          content: Text("Sucessfully logout!"),
-                        )),
-                      },
-                      child: Row(children: <Widget>[
-                        const Icon(Icons.logout),
-                        const SizedBox(width: 10),
-                        Text('Logout', style: kTextStyleProfile),
-                        const Expanded(child: SizedBox()),
-                        const Icon(Icons.arrow_forward)
-                      ]),
-                    )
-                  ],
+              Image.asset("assets/images/avatar_user.png"),
+              const SizedBox(height: 10.0),
+              Text(
+                email,
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w700,
+                  fontSize: 17.52,
                 ),
               ),
-            )
-          ],
+              const SizedBox(height: 10),
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.all(7.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      cardProfile(Icons.person, 'Account preferences'),
+                      cardProfile(Icons.language, 'Language'),
+                      cardProfile(Icons.star, 'Rate app'),
+                      cardProfile(Icons.share, 'Share App'),
+                      cardProfile(Icons.receipt, 'Acknowledgements'),
+                      cardProfile(Icons.shield, 'Privacy Police'),
+                      cardProfile(Icons.file_copy_rounded, 'Terms of service'),
+                      GestureDetector(
+                        onTap: () => {
+                          _auth.signOut().then((value) =>
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const WelcomePage()),
+                                  (route) => false)),
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text("Sucessfully logout!"),
+                          )),
+                        },
+                        child: Row(children: const <Widget>[
+                          Icon(Icons.logout),
+                          SizedBox(width: 10),
+                          Text('Logout', style: kTextStyleProfile),
+                          Expanded(child: SizedBox()),
+                          Icon(Icons.arrow_forward)
+                        ]),
+                      )
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

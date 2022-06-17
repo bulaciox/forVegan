@@ -70,69 +70,72 @@ class _FavPageState extends State<FavPage> {
     }
 
     favPage();
-    return SafeArea(
-      child: Container(
-        margin: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const Text('Favourites', style: kTextStyleTitle),
-            const SizedBox(height: 9),
-            Expanded(
-                child: allRecipes.isEmpty
-                    ? const Text("Nothing in favourites")
-                    : ListView(
-                        children: [
-                          ...allRecipes
-                              .map<Widget>((rec) => GestureDetector(
-                                    onTap: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            RecipePage(id: rec['id']),
+    return Scaffold(
+      backgroundColor: kColorGrey,
+      body: SafeArea(
+        child: Container(
+          margin: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const Text('Favourites', style: kTextStyleTitle),
+              const SizedBox(height: 9),
+              Expanded(
+                  child: allRecipes.isEmpty
+                      ? const Text("Nothing in favourites")
+                      : ListView(
+                          children: [
+                            ...allRecipes
+                                .map<Widget>((rec) => GestureDetector(
+                                      onTap: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              RecipePage(id: rec['id']),
+                                        ),
                                       ),
-                                    ),
-                                    child: Card(
-                                      margin: const EdgeInsets.symmetric(
-                                          vertical: 10),
-                                      elevation: 3, //sombreado
-                                      clipBehavior: Clip.antiAlias,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Ink.image(
-                                            height: 150,
-                                            image: NetworkImage(rec['image']),
-                                            fit: BoxFit.cover,
-                                          ),
-                                          Padding(
-                                              padding:
-                                                  const EdgeInsets.all(10.0),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(rec['title'],
-                                                      style:
-                                                          kTextStyleCardText),
-                                                  GestureDetector(
-                                                    onTap: () =>
-                                                        deleteRecipe(rec['id']),
-                                                    child: const Icon(
-                                                        Icons.delete),
-                                                  )
-                                                ],
-                                              ))
-                                        ],
+                                      child: Card(
+                                        margin: const EdgeInsets.symmetric(
+                                            vertical: 10),
+                                        elevation: 3, //sombreado
+                                        clipBehavior: Clip.antiAlias,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Ink.image(
+                                              height: 150,
+                                              image: NetworkImage(rec['image']),
+                                              fit: BoxFit.cover,
+                                            ),
+                                            Padding(
+                                                padding:
+                                                    const EdgeInsets.all(10.0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(rec['title'],
+                                                        style:
+                                                            kTextStyleCardText),
+                                                    GestureDetector(
+                                                      onTap: () => deleteRecipe(
+                                                          rec['id']),
+                                                      child: const Icon(
+                                                          Icons.delete),
+                                                    )
+                                                  ],
+                                                ))
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ))
-                              .toList()
-                        ],
-                      )),
-          ],
+                                    ))
+                                .toList()
+                          ],
+                        )),
+            ],
+          ),
         ),
       ),
     );

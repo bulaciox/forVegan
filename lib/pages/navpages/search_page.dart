@@ -19,14 +19,15 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kColorGrey,
       body: SafeArea(
         child: Container(
-          margin: EdgeInsets.all(20.0),
+          margin: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('Discover', style: kTextStyleTitle),
-              SizedBox(height: 10),
+              const Text('Discover', style: kTextStyleTitle),
+              const SizedBox(height: 10),
               TextField(
                 controller: controller,
                 onChanged: (val) {
@@ -35,9 +36,9 @@ class _SearchPageState extends State<SearchPage> {
                   });
                 },
                 decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.search),
+                  prefixIcon: const Icon(Icons.search),
                   suffixIcon: IconButton(
-                    icon: Icon(Icons.clear),
+                    icon: const Icon(Icons.clear),
                     onPressed: () {
                       setState(() {
                         controller.text = "";
@@ -46,14 +47,14 @@ class _SearchPageState extends State<SearchPage> {
                     },
                   ),
                   hintText: 'Search for your desired recipe',
-                  border: OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
+                  border: const OutlineInputBorder(),
+                  focusedBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: kColorPurple)),
                   hintStyle: kTextStyleTextField,
                 ),
                 keyboardType: TextInputType.text,
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               Expanded(
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
@@ -62,7 +63,7 @@ class _SearchPageState extends State<SearchPage> {
                   builder: (context, snapshots) {
                     return (snapshots.connectionState ==
                             ConnectionState.waiting)
-                        ? Center(
+                        ? const Center(
                             child: CircularProgressIndicator(),
                           )
                         : ListView.builder(
@@ -82,13 +83,14 @@ class _SearchPageState extends State<SearchPage> {
                                   ),
                                   child: Card(
                                     //elevation: 16, //sombreado
-                                    margin: EdgeInsets.symmetric(vertical: 10),
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     clipBehavior: Clip.antiAlias,
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Container(
+                                        SizedBox(
                                             width: 380,
                                             height: 100,
                                             child: Image.network(
@@ -102,7 +104,8 @@ class _SearchPageState extends State<SearchPage> {
                                           child: Text(data['title'],
                                               overflow: TextOverflow.ellipsis,
                                               softWrap: false,
-                                              style: TextStyle(fontSize: 17)),
+                                              style: const TextStyle(
+                                                  fontSize: 17)),
                                         )
                                       ],
                                     ),
@@ -123,13 +126,14 @@ class _SearchPageState extends State<SearchPage> {
                                   ),
                                   child: Card(
                                     //elevation: 16, //sombreado
-                                    margin: EdgeInsets.symmetric(vertical: 10),
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     clipBehavior: Clip.antiAlias,
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Container(
+                                        SizedBox(
                                             width: 380,
                                             height: 100,
                                             child: Image.network(
@@ -143,7 +147,8 @@ class _SearchPageState extends State<SearchPage> {
                                           child: Text(data['title'],
                                               overflow: TextOverflow.ellipsis,
                                               softWrap: false,
-                                              style: TextStyle(fontSize: 17)),
+                                              style: const TextStyle(
+                                                  fontSize: 17)),
                                         )
                                       ],
                                     ),

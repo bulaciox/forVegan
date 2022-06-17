@@ -127,7 +127,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
+                        const Text(
                           'Password',
                           style: kTextStylAddRecipe,
                         ),
@@ -135,9 +135,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         TextField(
                             onChanged: (value) => password = value,
                             obscureText: true,
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              focusedBorder: const OutlineInputBorder(
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
                               //hintText: 'Email address',
                               hintStyle: kTextStyleTextField,
@@ -162,7 +162,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             color: Colors.white),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
+                          children: const <Widget>[
                             Text('Register', style: kTextStylAddButtonPurple),
                             Icon(
                               Icons.arrow_forward,
@@ -178,10 +178,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 children: <Widget>[
                   Column(
                     children: <Widget>[
-                      Text('Already have an account?',
+                      const Text('Already have an account?',
                           style: kTextStylAddRecipe),
                       GestureDetector(
-                        child: Text('Login', style: kTextStyleProfile),
+                        child: const Text('Login', style: kTextStyleProfile),
                         onTap: () {
                           Navigator.push(
                               context,

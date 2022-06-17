@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:for_vegan/konstants.dart';
 
 import 'package:for_vegan/pages/navpages/add_page.dart';
 import 'package:for_vegan/pages/navpages/fav_page.dart';
@@ -34,6 +35,7 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       body: pages[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: kColorGrey,
         selectedItemColor: const Color.fromRGBO(122, 122, 199, 1.0),
         unselectedItemColor: Colors.black,
         showUnselectedLabels: false,

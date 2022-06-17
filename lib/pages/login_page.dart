@@ -74,22 +74,22 @@ class _LoginPageState extends State<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Text('Login', style: kTextStyleTitle),
+              const Text('Login', style: kTextStyleTitle),
               Column(
                 children: <Widget>[
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
+                        const Text(
                           'Email address',
                           style: kTextStylAddRecipe,
                         ),
                         const SizedBox(height: 5),
                         TextField(
                             onChanged: (value) => email = value,
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              focusedBorder: const OutlineInputBorder(
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
                               //hintText: 'Email adress',
                               hintStyle: kTextStyleTextField,
@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
+                        const Text(
                           'Password',
                           style: kTextStylAddRecipe,
                         ),
@@ -108,9 +108,9 @@ class _LoginPageState extends State<LoginPage> {
                         TextField(
                             obscureText: true,
                             onChanged: (value) => password = value,
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              focusedBorder: const OutlineInputBorder(
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
                               //hintText: 'Password',
                               hintStyle: kTextStyleTextField,
@@ -135,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                             color: Colors.white),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
+                          children: const <Widget>[
                             Text('Login', style: kTextStylAddButtonPurple),
                             Icon(
                               Icons.arrow_forward,
@@ -151,9 +151,11 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Column(
                     children: <Widget>[
-                      Text('Dont have an account?', style: kTextStylAddRecipe),
+                      const Text('Dont have an account?',
+                          style: kTextStylAddRecipe),
                       GestureDetector(
-                        child: Text('Create account', style: kTextStyleProfile),
+                        child: const Text('Create account',
+                            style: kTextStyleProfile),
                         onTap: () {
                           Navigator.push(
                               context,
